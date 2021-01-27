@@ -12,8 +12,33 @@ bot = telebot.TeleBot(secrets.BOT_TOKEN)
 def send_welcome(message):
     print(message)
     bot.reply_to(message, """\
-Hi you can read news.
+Hi welcome to HooBotNews.
 type /read to choose the category
+type /donate to help me
+type /info to get info about the bot
+type /help to read this message once again
+""")
+
+@bot.message_handler(commands=['donate'])
+def send_welcome(message):
+    print(message)
+    bot.reply_to(message, """\
+Hi welcome to HooBotNews.
+If you want to help me, buy me a coffee here
+[link to URL]
+""")
+
+@bot.message_handler(commands=['info'])
+def send_welcome(message):
+    print(message)
+    bot.reply_to(message, """\
+Hi welcome to HooBotNews.
+This bot let you read news without leave cookies around the web.
+I suggest you tu use a free-cookie browser if Telegram can't open a link by itself.
+Eg. Firefox Focus.
+
+You can help me buying me a coffee (type /donate for more info) and I will improve bot features.
+Enjoy your reading.
 """)
 
 
