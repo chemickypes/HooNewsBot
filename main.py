@@ -25,7 +25,7 @@ def send_welcome(message):
     bot.reply_to(message, """\
 Hi welcome to HooBotNews.
 If you want to help me, buy me a coffee here
-[link to URL]
+https://paypal.me/AngeloMoroni?locale.x=en_US
 """)
 
 @bot.message_handler(commands=['info'])
