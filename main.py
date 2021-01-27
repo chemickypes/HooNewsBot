@@ -2,8 +2,14 @@ import telebot
 import secrets
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import hoonewsbot
+from flask import Flask, request
+import os
+
 
 bot = telebot.TeleBot(secrets.BOT_TOKEN)
+server = Flask(__name__)
+
+
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -67,13 +73,21 @@ def read(message):
                  reply_markup=gen_markup(message.chat.id, message.from_user.language_code))
 
 
-def start_polling():
-    # Use a breakpoint in the code line below to debug your script.
-    bot.polling()
+@server.route('/' + secrets.BOT_TOKEN, methods=['POST'])
+def get_message():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=secrets.HEROKU_URL + secrets.BOT_TOKEN)
+    return "!", 200
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    start_polling()
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
