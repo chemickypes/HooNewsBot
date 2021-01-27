@@ -21,7 +21,7 @@ def gen_markup(chat_id, lang):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
     for cat in hoonewsbot.get_categories(lang):
-        markup.add(InlineKeyboardButton(cat, callback_data=f"{cat}:{chat_id}"))
+        markup.add(InlineKeyboardButton(cat[0], callback_data=f"{cat[1]}:{chat_id}"))
     return markup
 
 
@@ -30,7 +30,7 @@ def callback_query(call):
     print(call)
     data = call.data.split(':')
     bot.send_message(data[1], "Attendere...")
-    hoonewsbot.list_of_news(data[0].upper(), call.from_user.language_code).subscribe(
+    hoonewsbot.list_of_news(data[0], call.from_user.language_code).subscribe(
         lambda value: bot.send_message(data[1], value)
     )
 
