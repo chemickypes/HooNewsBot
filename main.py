@@ -30,6 +30,7 @@ def send_welcome(message):
     bot.reply_to(message, """\
 Hi welcome to HooBotNews.
 If you want to help me, buy me a coffee here
+
 https://paypal.me/AngeloMoroni?locale.x=en_US
 """)
 
@@ -39,8 +40,8 @@ def send_welcome(message):
     print(message)
     bot.reply_to(message, """\
 Hi welcome to HooBotNews.
-This bot let you read news without leave cookies around the web.
-I suggest you tu use a free-cookie browser if Telegram can't open a link by itself.
+This bot let you read news without leaving cookies around the web.
+I suggest you to use a free-cookie browser if Telegram can't open a link by itself.
 Eg. Firefox Focus.
 
 You can help me buying me a coffee (type /donate for more info) and I will improve bot features.
