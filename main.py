@@ -2,8 +2,6 @@ import telebot
 import secrets
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import hoonewsbot
-from hoonewsbot import categories
-import rx
 
 bot = telebot.TeleBot(secrets.BOT_TOKEN)
 
