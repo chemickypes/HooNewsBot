@@ -82,7 +82,7 @@ def get_message():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url=secrets.HEROKU_URL + secrets.BOT_TOKEN)
+    bot.set_webhook(url='https://hoonewsbot.herokuapp.com/' + secrets.BOT_TOKEN)
     return "!", 200
 
 
