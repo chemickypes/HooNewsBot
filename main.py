@@ -19,6 +19,7 @@ type /info to get info about the bot
 type /help to read this message once again
 """)
 
+
 @bot.message_handler(commands=['donate'])
 def send_welcome(message):
     print(message)
@@ -27,6 +28,7 @@ Hi welcome to HooBotNews.
 If you want to help me, buy me a coffee here
 https://paypal.me/AngeloMoroni?locale.x=en_US
 """)
+
 
 @bot.message_handler(commands=['info'])
 def send_welcome(message):
