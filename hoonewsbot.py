@@ -2,6 +2,7 @@ import feedparser
 import requests
 from rx import of, operators as op
 import pycountry
+import repo
 
 # https://news.google.com/news/rss/headlines/section/topic/CATEGORYNAME?ned=in&hl=en
 rss_url_struct = "https://news.google.com/news/rss/headlines/section/topic/{}?{}"
@@ -17,6 +18,10 @@ def resolve_link(link):
 
 def __find_lang(lang):
     return f'ned={lang}&hl={lang}'
+
+
+def save_user(user, chat_id):
+    repo.start_user(user, chat_id)
 
 
 def get_categories(lang):
