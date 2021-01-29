@@ -1,14 +1,15 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import json
+import write_data
+import feedparser
+from datetime import datetime
+from time import mktime
+from rx.subject import Subject
+from models import HooNewsMessage
 
-cred = credentials.Certificate("hoonewsbot-firebase.json")
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+db = write_data.db
 
 cache_live_search = {}
+
+message_subject = Subject()
 
 
 def start_user(user, chat_id):
@@ -33,3 +34,61 @@ def save_search(chat_id, search, search_category):
     user_doc.add({'live_search': search})
 
     return search[list(search)[0]]
+
+
+'''search = db.collection('searches') \
+            .where('category', '==', category) \
+            .where('lang', '==', lang) \
+            .where('country', '==', nation).stream()'''
+
+
+def make_search(chat_id, lang, category, nation):
+    countries = db.collection('feeds').document('countries').get().to_dict()
+    if lang not in countries['lang'] or nation not in countries['countries']:
+        # populate feeds because there is not the country or the lang or both
+        message_subject.on_next(HooNewsMessage('ALERT', (chat_id, 'FEEDS_LOADING')))
+        write_data.write_generic_feeds(lang, nation)
+        if lang not in countries['lang']: countries['lang'].append(lang)
+        if nation not in countries['countries']: countries['countries'].append(nation)
+        db.collection('feeds').document('countries').set(countries, merge=True)
+
+    feeds = db.collection('feeds').where('category', '==', category) \
+        .where('language', '==', lang) \
+        .where('country', '==', nation).stream()
+
+    list_of_articles = []
+
+    message_subject.on_next(HooNewsMessage('LOADING', (chat_id, 'NEWS_LOADING')))
+
+    for feed in feeds:
+        ll = feedparser.parse(feed.to_dict()['link'])
+        list_of_articles.extend(
+            [{'id': entry['id'], 'title': entry['title'], 'link': entry['link'],
+              'timestamp_parsed': entry['published_parsed']} for entry in ll['entries']]
+        )
+
+    list_of_articles.sort(key=lambda el: datetime.fromtimestamp(mktime(el['timestamp_parsed'])), reverse=True)
+    print(len(list_of_articles))
+
+    for index, element in enumerate(list_of_articles[:30]):
+        db.collection('live_search').document(str(chat_id)).collection('articles').document(str(index)).set(element,
+                                                                                                            merge=True)
+
+    message_subject.on_next(HooNewsMessage('VALUE', (chat_id, list_of_articles[0], '1')))
+
+
+def get_article(chat_id, article_id):
+    art = db.collection('live_search').document(str(chat_id)).collection('articles').document(
+        article_id).get().to_dict()
+    message_subject.on_next(HooNewsMessage('VALUE', (chat_id, art, str(int(article_id) + 1))))
+    if art is None:
+        db.collection('live_search').document(str(chat_id)).delete()
+
+
+if __name__ == '__main__':
+    message_subject.subscribe(lambda item: print(item))
+    make_search(6483, 'it', 'technology', 'it')
+    get_article(6483, '1')
+    get_article(6483, '2')
+    get_article(6483, '3')
+    get_article(6483, '473946383745846')
