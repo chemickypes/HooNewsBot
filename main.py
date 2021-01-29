@@ -69,14 +69,22 @@ def gen_markup(chat_id, callback_tag, answer_list):
     return markup
 
 
+@bot.callback_query_handler(func=lambda call: 'UPDATE_COUNTRY' in call.data)
+def callback_query_update_country(call):
+    print(call)
+    data = call.data.split(':')
+    bot.send_message(data[2], "Waiting...")
+    hoonewsbot.update_user_county(data[2], data[1])
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     print(call)
-    data = call.data.split(':')
-    bot.send_message(data[1], "Attendere...")
+    '''data = call.data.split(':')
+   bot.send_message(data[1], "Attendere...")
     hoonewsbot.list_of_news(data[0], call.from_user.language_code).subscribe(
         lambda value: bot.send_message(data[1], value)
-    )
+    )'''
 
 
 @bot.message_handler(commands=['read'])
@@ -104,10 +112,13 @@ def start_polling():
 
 
 def handle_message(hnm):
-    if hnm.message_type == 'INKEY':
+    print(hnm)
+    if hnm.message_type == 'UPDATE_COUNTRY':
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=
                          gen_markup(hnm.chat_id, hnm.content[1], [(ii['name'], ii['code']) for ii in hnm.content[2]]))
+    elif hnm.message_type == 'UPDATE':
+        bot.send_message(hnm.chat_id, "Ok")
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
