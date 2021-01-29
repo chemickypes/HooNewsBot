@@ -8,11 +8,11 @@ message_subject = Subject()
 def register_user(user, chat_id):
     list1 = repo.start_user(user, chat_id)
     if len(list1) > 0:
-        message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', ('What is your country?', 'UPDATE_COUNTRY', list1)))
+        message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE_COUNTRY', ('What is your country?', 'UPDATE_COUNTRY', list1)))
 
 
 def update_user_county(chat_id, country):
-    response = repo.update_user(chat_id, {'country': country})
+    response = repo.update_user(chat_id, {'country': country.lower()})
     if response:
         message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE', 'OK'))
 

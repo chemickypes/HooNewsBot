@@ -2,8 +2,8 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-import pycountry
-from pycountry import languages
+from country_list import countries_for_language
+import language_tags
 
 
 ultimo_uomo_url = "https://www.ultimouomo.com/rss"
@@ -41,4 +41,4 @@ def write_generic_feeds(lang, country):
 
 
 if __name__ == '__main__':
-    print(pycountry.countries.search_fuzzy('swit'))
+    print(language_tags.tags.subtags('it'))

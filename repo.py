@@ -23,7 +23,7 @@ def start_user(user, chat_id):
 
 
 def update_user(chat_id, content):
-    db.collection('users').document(chat_id).add(content, merge=True)
+    db.collection('users').document(str(chat_id)).set(content, merge=True)
     return 'OK'
 
 
