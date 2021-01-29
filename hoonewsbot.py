@@ -1,47 +1,36 @@
-import feedparser
-import requests
-from rx import of, operators as op
-import pycountry
 import repo
+from rx.subject import Subject
+from models import HooNewsMessage
 
-# https://news.google.com/news/rss/headlines/section/topic/CATEGORYNAME?ned=in&hl=en
-rss_url_struct = "https://news.google.com/news/rss/headlines/section/topic/{}?{}"
-general_rss_structure = "https://news.google.com/news/rss/?{}"
-
-categories = {'0': 'WORLD', '1': 'NATION', '2': 'BUSINESS', '3': 'TECHNOLOGY', '4': 'ENTERTAINMENT', '5': 'SPORTS',
-              '6': 'SCIENCE', '7': 'HEALTH', '8': 'GENERAL'}
+message_subject = Subject()
 
 
-def resolve_link(link):
-    return requests.get(link).url
+def register_user(user, chat_id):
+    list1 = repo.start_user(user, chat_id)
+    message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', list1))
 
 
-def __find_lang(lang):
-    return f'ned={lang}&hl={lang}'
+def update_user_county(chat_id, country):
+    response = repo.update_user(chat_id, {'country': country})
+    if response:
+        message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE', 'OK'))
 
 
-def save_user(user, chat_id):
-    repo.start_user(user, chat_id)
+def get_categories(chat_id, lang):
+    message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', repo.get_categories(chat_id)))
 
 
-def get_categories(lang):
-    categories_ = []
-    country = pycountry.countries.get(alpha_2=lang)
-    for index, cat in categories.items():
-        categories_.append(
-            (cat.lower().capitalize(), index) if index != '1' else
-            (country.name, index)
-        )
-    return categories_
+def get_article(chat_id, article_id):
+    art = repo.get_article(chat_id, article_id)
+    message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, str(int(article_id) + 1))))
 
 
-def list_of_news(type_of_news, lang):
-    url = rss_url_struct.format(categories[type_of_news],
-                                __find_lang(lang)) if type_of_news != '8' else general_rss_structure.format(
-        __find_lang(lang))
-    print(url)
-    news_feed = feedparser.parse(url)
-    source = of(*news_feed['entries'][:15]).pipe(
-        op.map(lambda entry: f'{entry["title"]}\n{resolve_link(entry["link"])}')
-    )
-    return source
+def make_search(chat_id, category):
+    need_new_feeds, lang, country = repo.needs_new_feed(chat_id)
+    if need_new_feeds:
+        message_subject.on_next(HooNewsMessage(chat_id, 'ALERT', 'FEEDS_LOADING'))
+        repo.write_generic_feeds(lang, country)
+
+    repo.get_articles(chat_id, category, lang, country)
+    art = repo.get_article(chat_id, "0")
+    message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, '1')))

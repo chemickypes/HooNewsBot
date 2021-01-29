@@ -1,5 +1,6 @@
 class HooNewsMessage:
-    def __init__(self, message_type, content):
+    def __init__(self, chat_id, message_type, content):
+        self.chat_id = chat_id
         self.message_type = message_type
         self.content = content
 
