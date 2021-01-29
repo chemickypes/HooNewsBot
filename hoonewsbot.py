@@ -7,7 +7,8 @@ message_subject = Subject()
 
 def register_user(user, chat_id):
     list1 = repo.start_user(user, chat_id)
-    message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', list1))
+    if len(list1) > 0:
+        message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', ('What is your country?', 'UPDATE_COUNTRY', list1)))
 
 
 def update_user_county(chat_id, country):
@@ -31,7 +32,7 @@ def make_search(chat_id, category):
         message_subject.on_next(HooNewsMessage(chat_id, 'ALERT', 'FEEDS_LOADING'))
         repo.write_generic_feeds(lang, country)
 
-    message_subject.on_next(HooNewsMessage(chat_id, 'LOADING',  'NEWS_LOADING'))
+    message_subject.on_next(HooNewsMessage(chat_id, 'LOADING', 'NEWS_LOADING'))
     repo.get_articles(chat_id, category, lang, country)
     art = repo.get_article(chat_id, "0")
     message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, '1')))

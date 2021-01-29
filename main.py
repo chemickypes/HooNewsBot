@@ -10,8 +10,6 @@ DEBUG = True
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
 
-hoonewsbot.message_subject.subscribe()
-
 
 @bot.message_handler(commands=['help'])
 def send_welcome(message):
@@ -63,11 +61,11 @@ Enjoy your reading.
 """)
 
 
-def gen_markup(chat_id, lang):
+def gen_markup(chat_id, callback_tag, answer_list):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
-    for cat in hoonewsbot.get_categories(lang):
-        markup.add(InlineKeyboardButton(cat[0], callback_data=f"{cat[1]}:{chat_id}"))
+    for cat in answer_list:
+        markup.add(InlineKeyboardButton(cat[0], callback_data=f"{callback_tag}:{cat[1]}:{chat_id}"))
     return markup
 
 
@@ -104,6 +102,15 @@ def webhook():
 def start_polling():
     bot.polling()
 
+
+def handle_message(hnm):
+    if hnm.message_type == 'INKEY':
+        bot.send_message(hnm.chat_id,
+                         hnm.content[0], reply_markup=
+                         gen_markup(hnm.chat_id, hnm.content[1], [(ii['name'], ii['code']) for ii in hnm.content[2]]))
+
+
+hoonewsbot.message_subject.subscribe(handle_message)
 
 if __name__ == '__main__':
     # server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))

@@ -41,4 +41,4 @@ def write_generic_feeds(lang, country):
 
 
 if __name__ == '__main__':
-    print(pycountry.countries.search_fuzzy('swiz'))
+    print(pycountry.countries.search_fuzzy('swit'))

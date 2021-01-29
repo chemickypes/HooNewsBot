@@ -13,9 +13,11 @@ def __resolve_link(link):
 
 
 def start_user(user, chat_id):
-    db.collection('users').document(chat_id).set(user)
+    uuser = {'name': user.first_name, 'language': user.language_code, 'username': user.username}
+    db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return pycountry.countries.search_fuzzy('it')
+        return [{'code': ii.alpha_2, 'name': ii.name} for ii in
+                pycountry.countries.search_fuzzy(user.language_code)]
     except LookupError:
         return []
 
