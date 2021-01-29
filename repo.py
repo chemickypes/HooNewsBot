@@ -4,12 +4,17 @@ from datetime import datetime
 from time import mktime
 from rx.subject import Subject
 from models import HooNewsMessage
+import requests
 
 db = write_data.db
 
 cache_live_search = {}
 
 message_subject = Subject()
+
+
+def __resolve_link(link):
+    return requests.get(link).url
 
 
 def start_user(user, chat_id):
@@ -52,13 +57,12 @@ def make_search(chat_id, lang, category, nation):
         if nation not in countries['countries']: countries['countries'].append(nation)
         db.collection('feeds').document('countries').set(countries, merge=True)
 
+    message_subject.on_next(HooNewsMessage('LOADING', (chat_id, 'NEWS_LOADING')))
     feeds = db.collection('feeds').where('category', '==', category) \
         .where('language', '==', lang) \
         .where('country', '==', nation).stream()
 
     list_of_articles = []
-
-    message_subject.on_next(HooNewsMessage('LOADING', (chat_id, 'NEWS_LOADING')))
 
     for feed in feeds:
         ll = feedparser.parse(feed.to_dict()['link'])
@@ -74,15 +78,19 @@ def make_search(chat_id, lang, category, nation):
         db.collection('live_search').document(str(chat_id)).collection('articles').document(str(index)).set(element,
                                                                                                             merge=True)
 
-    message_subject.on_next(HooNewsMessage('VALUE', (chat_id, list_of_articles[0], '1')))
+    get_article(chat_id, '0')
 
 
 def get_article(chat_id, article_id):
     art = db.collection('live_search').document(str(chat_id)).collection('articles').document(
         article_id).get().to_dict()
-    message_subject.on_next(HooNewsMessage('VALUE', (chat_id, art, str(int(article_id) + 1))))
     if art is None:
         db.collection('live_search').document(str(chat_id)).delete()
+        message_subject.on_next(HooNewsMessage('VALUE', (chat_id, None)))
+    else:
+        if 'news.google' in art['link']:
+            art['link'] = __resolve_link(art['link'])
+        message_subject.on_next(HooNewsMessage('VALUE', (chat_id, art, str(int(article_id) + 1))))
 
 
 if __name__ == '__main__':
