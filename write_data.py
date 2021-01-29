@@ -26,6 +26,18 @@ def __find_lang(lang, country):
     return f'gl={country}&ned={country}&hl={lang}'
 
 
+def write_generic_feeds(lang, country):
+    for i, cat in categories.items():
+        db.collection('feeds').document().set({
+            'link': rss_url_struct.format(categories[i],
+                                          __find_lang(lang, country)) if i != '8' else general_rss_structure.format(
+                __find_lang(lang, country)),
+            'category': cat.lower(),
+            'language': lang,
+            'country': country
+        })
+
+
 if __name__ == '__main__':
     '''news_feed_ul = feedparser.parse(ultimo_uomo_url)
     news_feed_gn = feedparser.parse(wired_news)
@@ -69,6 +81,7 @@ if __name__ == '__main__':
         'language': 'it',
         'country': 'it'
     })'''
-    db.collection('feeds').document('categories').set({
-        'categories': [cat.lower() for i, cat in categories.items()]
+    db.collection('feeds').document('countries').set({
+        'countries': ['it', 'uk', 'us'],
+        'lang': ['it', 'en']
     })
