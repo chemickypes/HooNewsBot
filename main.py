@@ -5,14 +5,15 @@ import hoonewsbot
 from flask import Flask, request
 import os
 
+DEBUG = True
 
-bot = telebot.TeleBot(secrets.BOT_TOKEN)
+bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
 
+hoonewsbot.message_subject.subscribe()
 
 
-
-@bot.message_handler(commands=['help', 'start'])
+@bot.message_handler(commands=['help'])
 def send_welcome(message):
     print(message)
     bot.reply_to(message, """\
@@ -22,6 +23,19 @@ type /donate to help me
 type /info to get info about the bot
 type /help to read this message once again
 """)
+
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    print(message)
+    bot.reply_to(message, """\
+Hi welcome to HooBotNews.
+type /read to choose the category
+type /donate to help me
+type /info to get info about the bot
+type /help to read this message once again
+""")
+    hoonewsbot.register_user(user=message.from_user, chat_id=message.chat.id)
 
 
 @bot.message_handler(commands=['donate'])
@@ -87,6 +101,10 @@ def webhook():
     return "!", 200
 
 
-if __name__ == '__main__':
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+def start_polling():
+    bot.polling()
 
+
+if __name__ == '__main__':
+    # server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    start_polling()
