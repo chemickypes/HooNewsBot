@@ -29,6 +29,11 @@ def update_user_country(chat_id, country_code):
     message_subject.on_next(HooNewsMessage('UPDATE', ('Country update', chat_id)))
 
 
+def update_user_language(chat_id, language):
+    db.collection('users').document(chat_id).add({'language': language}, merge=True)
+    message_subject.on_next(HooNewsMessage('UPDATE', ('Language update', chat_id)))
+
+
 def get_user(chat_id):
     return db.collection('users').document(chat_id).get().to_dict()
 
