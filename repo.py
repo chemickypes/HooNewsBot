@@ -4,6 +4,7 @@ from datetime import datetime
 from time import mktime
 import requests
 import pycountry
+from country_list import countries_for_language
 
 db = write_data.db
 
@@ -12,12 +13,17 @@ def __resolve_link(link):
     return requests.get(link).url
 
 
+def __get_country_list(lang_code):
+    ll = db.collection('languages').document('languages').get().to_dict()[lang_code]
+    countries_for_lang = dict(countries_for_language(lang_code))
+    return [{'code': l1, 'name': countries_for_lang[l1]} for l1 in ll]
+
+
 def start_user(user, chat_id):
     uuser = {'name': user.first_name, 'language': user.language_code, 'username': user.username}
     db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return [{'code': ii.alpha_2, 'name': ii.name} for ii in
-                pycountry.countries.search_fuzzy(user.language_code)]
+        return __get_country_list(user.language_code)
     except LookupError:
         return []
 
@@ -94,9 +100,4 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    #  message_subject.subscribe(lambda item: print(item))
-    #  make_search(6483, 'en', 'technology', 'ca')
-    get_article(6483, '1')
-    get_article(6483, '2')
-    get_article(6483, '3')
-    get_article(6483, '473946383745846')
+    print('0ciao')
