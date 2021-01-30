@@ -2,14 +2,6 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from country_list import countries_for_language
-import language_tags
-import json
-
-
-ultimo_uomo_url = "https://www.ultimouomo.com/rss"
-g_news = 'https://news.google.com/news/rss/headlines/section/topic/TECHNOLOGY?ned=it&hl=it'
-wired_news = 'https://www.wired.it/feed/'
 
 rss_url_struct = "https://news.google.com/news/rss/headlines/section/topic/{}?{}"
 general_rss_structure = "https://news.google.com/news/rss/?{}"
@@ -41,9 +33,3 @@ def write_generic_feeds(lang, country):
         })
 
 
-if __name__ == '__main__':
-    __ll = {}
-    with open('langs.json', 'r') as fi:
-        __ll = json.loads(fi.read())
-        fi.close()
-    db.collection('languages').document('languages').set(__ll)
