@@ -1,6 +1,9 @@
 texts = {'it': {
     'UPDATE_COUNTRY': 'Dove vivi?',
     'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?',
+    'GENERIC_LOADING': 'Attendere...',
+    'NEW_FEEDS_LOADING': 'Caricamento nuovi feed...',
+    'NEWS_LOADING': 'Caricamento nuove notizie...',
     'CATEGORIES': {
         'world': 'Mondo',
         'business': 'Business',
@@ -15,6 +18,9 @@ texts = {'it': {
     'en': {
         'UPDATE_COUNTRY': 'Where do you live?',
         'CATEGORIES_CHOOSE': 'What do you want to read?',
+        'GENERIC_LOADING': 'Waiting...',
+        'NEW_FEEDS_LOADING': 'New feeds loading...',
+        'NEWS_LOADING': 'News loading...',
         'CATEGORIES': {
             'world': 'World',
             'business': 'Business',

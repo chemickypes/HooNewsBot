@@ -35,11 +35,13 @@ def get_article(chat_id, article_id):
 
 def make_search(chat_id, category):
     need_new_feeds, lang, country = repo.needs_new_feed(chat_id)
+    message_subject.on_next((HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'GENERIC_LOADING'))))
     if need_new_feeds:
-        message_subject.on_next(HooNewsMessage(chat_id, 'ALERT', 'FEEDS_LOADING'))
+        message_subject.on_next(
+            HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'NEW_FEEDS_LOADING')))
         repo.write_generic_feeds(lang, country)
 
-    message_subject.on_next(HooNewsMessage(chat_id, 'LOADING', 'NEWS_LOADING'))
+    message_subject.on_next(HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'NEWS_LOADING')))
     repo.get_articles(chat_id, category, lang, country)
     art = repo.get_article(chat_id, "0")
     message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, '1')))
