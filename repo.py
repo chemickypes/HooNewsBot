@@ -3,7 +3,6 @@ import feedparser
 from datetime import datetime
 from time import mktime
 import requests
-import pycountry
 from country_list import countries_for_language
 
 db = write_data.db
