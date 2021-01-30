@@ -73,8 +73,14 @@ def gen_markup(chat_id, callback_tag, answer_list):
 def callback_query_update_country(call):
     print(call)
     data = call.data.split(':')
-    bot.send_message(data[2], "Waiting...")
     hoonewsbot.update_user_county(data[2], data[1])
+
+
+@bot.callback_query_handler(func=lambda call: 'CATEGORIES_CHOOSE' in call.data)
+def callback_query_categories(call):
+    print(call)
+    data = call.data.split(':')
+    hoonewsbot.make_search(data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -125,6 +131,8 @@ def handle_message(hnm):
             markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
+    elif hnm.message_type == 'LOADING':
+        bot.send_message(hnm.chat_id, hnm.content)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
