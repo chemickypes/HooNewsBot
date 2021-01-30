@@ -91,8 +91,11 @@ def get_article(chat_id, article_id):
     #  message_subject.on_next(HooNewsMessage('VALUE', (chat_id, None)))
     else:
         art_doc.reference.delete()
-        if 'news.google' in art['link']:
-            art['link'] = __resolve_link(art['link'])
+        try:
+            if 'news.google' in art['link']:
+                art['link'] = __resolve_link(art['link'])
+        except:
+            pass
         #  message_subject.on_next(HooNewsMessage('VALUE', (chat_id, art, str(int(article_id) + 1))))
     return art
 

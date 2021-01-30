@@ -83,6 +83,13 @@ def callback_query_categories(call):
     hoonewsbot.make_search(data[2], data[1])
 
 
+@bot.callback_query_handler(func=lambda call: 'ITEM' in call.data)
+def callback_query_item(call):
+    print(call)
+    data = call.data.split(':')
+    hoonewsbot.get_article(data[2], data[1])
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     print(call)
@@ -133,6 +140,12 @@ def handle_message(hnm):
                          hnm.content[0], reply_markup=markup)
     elif hnm.message_type == 'LOADING':
         bot.send_message(hnm.chat_id, hnm.content)
+    elif hnm.message_type == 'ITEM':
+        markup = InlineKeyboardMarkup()
+        markup.row_width = 1
+        markup.add(InlineKeyboardButton('Next', callback_data=f'ITEM:{hnm.content[1]}:{hnm.chat_id}'))
+        bot.send_message(hnm.chat_id,
+                         f"{hnm.content[0]['title']}\n{hnm.content[0]['link']}", reply_markup=markup)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
