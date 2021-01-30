@@ -1,8 +1,10 @@
 texts = {'it': {
-    'UPDATE_COUNTRY': 'Dove vivi?'
+    'UPDATE_COUNTRY': 'Dove vivi?',
+    'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?'
 },
     'en': {
-        'UPDATE_COUNTRY': 'Where do you live?'
+        'UPDATE_COUNTRY': 'Where do you live?',
+        'CATEGORIES_CHOOSE': 'What do you want to read?'
     }}
 
 
