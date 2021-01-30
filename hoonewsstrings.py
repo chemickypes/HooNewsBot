@@ -1,10 +1,30 @@
 texts = {'it': {
     'UPDATE_COUNTRY': 'Dove vivi?',
-    'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?'
+    'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?',
+    'CATEGORIES': {
+        'world': 'Mondo',
+        'business': 'Business',
+        'technology': 'Tech',
+        'entertainment': 'Intrattenimento',
+        'sports': 'Sport',
+        'science': 'Scienza',
+        'health': 'Salute',
+        'general': 'Top Notizie'
+    }
 },
     'en': {
         'UPDATE_COUNTRY': 'Where do you live?',
-        'CATEGORIES_CHOOSE': 'What do you want to read?'
+        'CATEGORIES_CHOOSE': 'What do you want to read?',
+        'CATEGORIES': {
+            'world': 'World',
+            'business': 'Business',
+            'technology': 'Tech',
+            'entertainment': 'Entertainment',
+            'sports': 'Sports',
+            'science': 'Science',
+            'health': 'Health',
+            'general': 'Top News'
+        }
     }}
 
 
