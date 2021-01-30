@@ -52,4 +52,5 @@ def make_search(chat_id, category):
     message_subject.on_next(HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'NEWS_LOADING')))
     repo.get_articles(chat_id, category, lang, country)
     art = repo.get_article(chat_id, "0")
-    message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, '1')))
+    message_subject.on_next(
+        HooNewsMessage(chat_id, 'ITEM', (art, '1', hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
