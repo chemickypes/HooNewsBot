@@ -3,7 +3,6 @@ import secrets
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 import hoonewsbot
 from flask import Flask, request
-import os
 
 DEBUG = False
 
@@ -153,5 +152,7 @@ def handle_message(hnm):
 hoonewsbot.message_subject.subscribe(handle_message)
 
 if __name__ == '__main__':
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
-    # start_polling()
+    if DEBUG:
+        start_polling()
+    else:
+        server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
