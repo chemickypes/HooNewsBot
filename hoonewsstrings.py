@@ -4,6 +4,8 @@ texts = {'it': {
     'GENERIC_LOADING': 'Attendere...',
     'NEW_FEEDS_LOADING': 'Caricamento nuovi feed...',
     'NEWS_LOADING': 'Caricamento nuove notizie...',
+    'NEXT': 'Prossima notizia',
+    'READ_ALL': 'Sei arrivato alla fine!',
     'CATEGORIES': {
         'world': 'Mondo',
         'business': 'Business',
@@ -21,6 +23,8 @@ texts = {'it': {
         'GENERIC_LOADING': 'Waiting...',
         'NEW_FEEDS_LOADING': 'New feeds loading...',
         'NEWS_LOADING': 'News loading...',
+        'NEXT': 'Next',
+        'READ_ALL': 'You read all!',
         'CATEGORIES': {
             'world': 'World',
             'business': 'Business',

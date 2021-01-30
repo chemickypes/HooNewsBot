@@ -5,6 +5,8 @@ import hoonewsstrings
 
 message_subject = Subject()
 
+user_cache = {}
+
 
 def register_user(user, chat_id):
     list1 = repo.start_user(user, chat_id)
@@ -30,11 +32,17 @@ def get_categories(chat_id, lang):
 
 def get_article(chat_id, article_id):
     art = repo.get_article(chat_id, article_id)
-    message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (art, str(int(article_id) + 1))))
+    if art:
+        message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (
+        art, str(int(article_id) + 1, ), hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
+    else:
+        message_subject.on_next(
+            HooNewsMessage(chat_id, 'ITEM_END', hoonewsstrings.get_string(user_cache[chat_id][0], 'READ_ALL')))
 
 
 def make_search(chat_id, category):
     need_new_feeds, lang, country = repo.needs_new_feed(chat_id)
+    user_cache[chat_id] = [lang, country]
     message_subject.on_next((HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'GENERIC_LOADING'))))
     if need_new_feeds:
         message_subject.on_next(

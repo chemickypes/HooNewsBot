@@ -143,9 +143,11 @@ def handle_message(hnm):
     elif hnm.message_type == 'ITEM':
         markup = InlineKeyboardMarkup()
         markup.row_width = 1
-        markup.add(InlineKeyboardButton('Next', callback_data=f'ITEM:{hnm.content[1]}:{hnm.chat_id}'))
+        markup.add(InlineKeyboardButton(hnm.content[2], callback_data=f'ITEM:{hnm.content[1]}:{hnm.chat_id}'))
         bot.send_message(hnm.chat_id,
                          f"{hnm.content[0]['title']}\n{hnm.content[0]['link']}", reply_markup=markup)
+    elif hnm.message_type == 'ITEM_END':
+        bot.send_message(hnm.chat_id, hnm.content)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
