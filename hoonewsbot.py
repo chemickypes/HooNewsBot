@@ -34,7 +34,7 @@ def get_article(chat_id, article_id):
     art = repo.get_article(chat_id, article_id)
     if art:
         message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (
-        art, str(int(article_id) + 1, ), hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
+            art, str(int(article_id) + 1, ), hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
     else:
         message_subject.on_next(
             HooNewsMessage(chat_id, 'ITEM_END', hoonewsstrings.get_string(user_cache[chat_id][0], 'READ_ALL')))
