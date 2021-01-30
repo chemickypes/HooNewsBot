@@ -122,7 +122,7 @@ def handle_message(hnm):
         markup = InlineKeyboardMarkup()
         markup.row_width = 2
         for cat in hnm.content[2]:
-            markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[0].lower()}:{hnm.chat_id}"))
+            markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
 
