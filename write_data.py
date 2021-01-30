@@ -4,6 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from country_list import countries_for_language
 import language_tags
+import json
 
 
 ultimo_uomo_url = "https://www.ultimouomo.com/rss"
@@ -41,4 +42,8 @@ def write_generic_feeds(lang, country):
 
 
 if __name__ == '__main__':
-    print(language_tags.tags.subtags('it'))
+    __ll = {}
+    with open('langs.json', 'r') as fi:
+        __ll = json.loads(fi.read())
+        fi.close()
+    db.collection('languages').document('languages').set(__ll)

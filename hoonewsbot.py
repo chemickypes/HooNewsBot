@@ -1,6 +1,7 @@
 import repo
 from rx.subject import Subject
 from models import HooNewsMessage
+import hoonewsstrings
 
 message_subject = Subject()
 
@@ -8,7 +9,9 @@ message_subject = Subject()
 def register_user(user, chat_id):
     list1 = repo.start_user(user, chat_id)
     if len(list1) > 0:
-        message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE_COUNTRY', ('What is your country?', 'UPDATE_COUNTRY', list1)))
+        message_subject.on_next(
+            HooNewsMessage(chat_id, 'UPDATE_COUNTRY',
+                           (hoonewsstrings.get_string(user.language_code, 'UPDATE_COUNTRY'), 'UPDATE_COUNTRY', list1)))
 
 
 def update_user_county(chat_id, country):
