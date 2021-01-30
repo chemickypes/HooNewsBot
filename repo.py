@@ -38,7 +38,7 @@ def get_user(chat_id):
 
 def get_categories(chat_id):
     return [(cat.capitalize(), index) for index, cat in
-            enumerate(db.collection('feeds').document('categories').to_dict()['categories'])]
+            enumerate(db.collection('feeds').document('categories').get().to_dict()['categories'])]
 
 
 def needs_new_feed(chat_id):

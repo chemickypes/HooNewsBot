@@ -21,7 +21,9 @@ def update_user_county(chat_id, country):
 
 
 def get_categories(chat_id, lang):
-    message_subject.on_next(HooNewsMessage(chat_id, 'INKEY', repo.get_categories(chat_id)))
+    message_subject.on_next(HooNewsMessage(chat_id, 'CATEGORIES_CHOOSE',
+                                           (hoonewsstrings.get_string(lang, 'CATEGORIES_CHOOSE'),
+                                            'CATEGORIES_CHOOSE', repo.get_categories(chat_id))))
 
 
 def get_article(chat_id, article_id):

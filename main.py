@@ -90,8 +90,7 @@ def callback_query(call):
 @bot.message_handler(commands=['read'])
 def read(message):
     print(message)
-    bot.reply_to(message, 'Choose Category',
-                 reply_markup=gen_markup(message.chat.id, message.from_user.language_code))
+    hoonewsbot.get_categories(message.chat.id, message.from_user.language_code)
 
 
 @server.route('/' + secrets.BOT_TOKEN, methods=['POST'])
@@ -119,6 +118,13 @@ def handle_message(hnm):
                          gen_markup(hnm.chat_id, hnm.content[1], [(ii['name'], ii['code']) for ii in hnm.content[2]]))
     elif hnm.message_type == 'UPDATE':
         bot.send_message(hnm.chat_id, "Ok")
+    elif hnm.message_type == 'CATEGORIES_CHOOSE':
+        markup = InlineKeyboardMarkup()
+        markup.row_width = 2
+        for cat in hnm.content[2]:
+            markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[0].lower()}:{hnm.chat_id}"))
+        bot.send_message(hnm.chat_id,
+                         hnm.content[0], reply_markup=markup)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
