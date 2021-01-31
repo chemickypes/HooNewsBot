@@ -54,3 +54,8 @@ def make_search(chat_id, category):
     art = repo.get_article(chat_id, "0")
     message_subject.on_next(
         HooNewsMessage(chat_id, 'ITEM', (art, '1', hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
+
+
+def start(message):
+
+    return None
