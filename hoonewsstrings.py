@@ -6,8 +6,9 @@ texts = {'it': {
     'NEWS_LOADING': 'Caricamento nuove notizie...',
     'NEXT': 'Prossima notizia',
     'READ_ALL': 'Sei arrivato alla fine!',
+    'WELCOME_MESSAGE': 'Ciao, mi servirebbe giusto un\'informazione per iniziare',
     'START_MESSAGE': """
-    Ciao, adesso puoi leggere le notizie.
+    Adesso puoi leggere le notizie.
     scrivi /read per cominciare
     o /help per avere aiuto
     """,
@@ -38,8 +39,9 @@ texts = {'it': {
         'NEWS_LOADING': 'News loading...',
         'NEXT': 'Next',
         'READ_ALL': 'You read all!',
+        'WELCOME_MESSAGE': 'Hi, I need just one info before starting',
         'START_MESSAGE': """
-        Hi, now you can start reading news.
+        Now you can start reading news.
         type /read to choose the category
         or /help to get help
         """,
