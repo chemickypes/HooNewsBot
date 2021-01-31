@@ -13,6 +13,12 @@ texts = {'it': {
     scrivi /read per cominciare
     o /help per avere aiuto
     """,
+    'DONATE_MESSAGE': """\
+            Ciao, se vuoi aiutarmi pagami un caffè o una birra!
+            Ne sarei contento!
+
+            https://paypal.me/AngeloMoroni?locale.x=en_US
+            """,
     'HELP_MESSAGE': """\
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
@@ -47,6 +53,11 @@ texts = {'it': {
         type /read to choose the category
         or /help to get help
         """,
+        'DONATE_MESSAGE': """\
+            If you want to help me, buy me a coffee here
+            
+            https://paypal.me/AngeloMoroni?locale.x=en_US
+            """,
         'HELP_MESSAGE': """\
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.

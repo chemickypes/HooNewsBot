@@ -13,39 +13,21 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['help'])
 def send_help(message):
-    print(message)
+    if DEBUG: print(message)
     hoonewsbot.help(message.chat.id, message.from_user.language_code)
 
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    print(message)
+    if DEBUG: print(message)
     hoonewsbot.start(message)
 
 
 @bot.message_handler(commands=['donate'])
 def send_donate_info(message):
-    print(message)
-    bot.reply_to(message, """\
-Hi welcome to HooBotNews.
-If you want to help me, buy me a coffee here
+    if DEBUG: print(message)
+    hoonewsbot.donate_message(message.chat.id, message.from_user.language_code)
 
-https://paypal.me/AngeloMoroni?locale.x=en_US
-""")
-
-
-@bot.message_handler(commands=['info'])
-def send_bot_info(message):
-    print(message)
-    bot.reply_to(message, """\
-Hi welcome to HooBotNews.
-This bot let you read news without leaving cookies around the web.
-I suggest you to use a free-cookie browser if Telegram can't open a link by itself.
-Eg. Firefox Focus.
-
-You can help me buying me a coffee (type /donate for more info) and I will improve bot features.
-Enjoy your reading.
-""")
 
 
 def gen_markup(chat_id, callback_tag, answer_list):
@@ -58,7 +40,7 @@ def gen_markup(chat_id, callback_tag, answer_list):
 
 @bot.callback_query_handler(func=lambda call: 'UPDATE_COUNTRY' in call.data)
 def callback_query_update_country(call):
-    print(call)
+    if DEBUG: print(call)
     data = call.data.split(':')
     hoonewsbot.update_user_county_at_start(data[2], data[1])
 
