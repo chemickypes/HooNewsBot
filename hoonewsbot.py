@@ -57,5 +57,9 @@ def make_search(chat_id, category):
 
 
 def start(message):
-
-    return None
+    message_subject.on_next(
+        HooNewsMessage(message.chat.id, 'INFO', hoonewsstrings.get_string(
+            message.from_user.language_code, 'WELCOME_MESSAGE'
+        ))
+    )
+    register_user(message.from_user, message.chat.id)
