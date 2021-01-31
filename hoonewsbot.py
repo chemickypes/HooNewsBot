@@ -89,3 +89,11 @@ def help(chat_id, language):
 if __name__ == '__main__':
     message_subject.subscribe(lambda mm: print(mm))
     make_search('it', '33', 'technology')
+
+
+def donate_message(chat_id, language_code):
+    message_subject.on_next(
+        HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
+            language_code, 'DONATE_MESSAGE'
+        ))
+    )
