@@ -63,3 +63,11 @@ def start(message):
         ))
     )
     register_user(message.from_user, message.chat.id)
+
+
+def help(chat_id, language):
+    message_subject.on_next(
+        HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
+            language, 'HELP_MESSAGE'
+        ))
+    )

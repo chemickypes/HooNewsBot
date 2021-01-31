@@ -12,26 +12,19 @@ server = Flask(__name__)
 
 
 @bot.message_handler(commands=['help'])
-def send_welcome(message):
+def send_help(message):
     print(message)
-    bot.reply_to(message, """\
-Hi welcome to HooBotNews.
-type /read to choose the category
-type /donate to help me
-type /info to get info about the bot
-type /help to read this message once again
-""")
+    hoonewsbot.help(message.chat.id, message.from_user.language_code)
 
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     print(message)
     hoonewsbot.start(message)
-    # hoonewsbot.register_user(user=message.from_user, chat_id=message.chat.id)
 
 
 @bot.message_handler(commands=['donate'])
-def send_welcome(message):
+def send_donate_info(message):
     print(message)
     bot.reply_to(message, """\
 Hi welcome to HooBotNews.
@@ -42,7 +35,7 @@ https://paypal.me/AngeloMoroni?locale.x=en_US
 
 
 @bot.message_handler(commands=['info'])
-def send_welcome(message):
+def send_bot_info(message):
     print(message)
     bot.reply_to(message, """\
 Hi welcome to HooBotNews.
