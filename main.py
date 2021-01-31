@@ -67,7 +67,7 @@ def callback_query_update_country(call):
 def callback_query_categories(call):
     print(call)
     data = call.data.split(':')
-    hoonewsbot.make_search(data[2], data[1])
+    hoonewsbot.make_search(call.from_user.language_code, data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: 'ITEM' in call.data)
@@ -123,7 +123,7 @@ def handle_message(hnm):
             markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
-    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE']:
+    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE','ERROR']:
         bot.send_message(hnm.chat_id, hnm.content)
     elif hnm.message_type == 'ITEM':
         markup = InlineKeyboardMarkup()

@@ -12,7 +12,7 @@ def __resolve_link(link):
     return requests.get(link).url
 
 
-def __get_country_list(lang_code):
+def get_country_list(lang_code):
     ll = db.collection('languages').document('languages').get().to_dict()[lang_code]
     countries_for_lang = dict(countries_for_language(lang_code))
     return [{'code': l1, 'name': countries_for_lang[l1]} for l1 in ll]
@@ -22,7 +22,7 @@ def start_user(user, chat_id):
     uuser = {'name': user.first_name, 'language': user.language_code, 'username': user.username}
     db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return __get_country_list(user.language_code)
+        return get_country_list(user.language_code)
     except LookupError:
         return []
 
@@ -44,9 +44,13 @@ def needs_new_feed(chat_id):
     user = get_user(chat_id)
     countries = db.collection('feeds').document('countries').get().to_dict()
 
-    return (
-        user['language'] not in countries['lang'] or user['country'] not in countries['countries'], user['language'],
-        user['country'])
+    if user:
+        return (
+            user['language'] not in countries['lang'] or user['country'] not in countries['countries'],
+            user['language'],
+            user['country'])
+    else:
+        return (None, None, None)
 
 
 def write_generic_feeds(lang, country):

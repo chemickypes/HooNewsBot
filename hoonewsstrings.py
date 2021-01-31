@@ -6,6 +6,7 @@ texts = {'it': {
     'NEWS_LOADING': 'Caricamento nuove notizie...',
     'NEXT': 'Prossima notizia',
     'READ_ALL': 'Sei arrivato alla fine!',
+    'ERROR_COUNTRY': 'Ops, non so dove vivi, mi serve saperlo per personalizzare la tua ricerca.',
     'WELCOME_MESSAGE': 'Ciao, mi servirebbe giusto un\'informazione per iniziare',
     'START_MESSAGE': """\
     Perfetto, grazie! Adesso puoi leggere le notizie.
@@ -39,6 +40,7 @@ texts = {'it': {
         'NEWS_LOADING': 'News loading...',
         'NEXT': 'Next',
         'READ_ALL': 'You read all!',
+        'ERROR_COUNTRY': 'Ops, I don\'y know where do you live. I need to know to fit the feed',
         'WELCOME_MESSAGE': 'Hi, I need just one info before starting',
         'START_MESSAGE': """
         Oh, Thank you! Now you can start reading news.
