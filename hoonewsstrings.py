@@ -6,7 +6,12 @@ texts = {'it': {
     'NEWS_LOADING': 'Caricamento nuove notizie...',
     'NEXT': 'Prossima notizia',
     'READ_ALL': 'Sei arrivato alla fine!',
-    'START_MESSAGE': """\
+    'START_MESSAGE': """
+    Ciao, adesso puoi leggere le notizie.
+    scrivi /read per cominciare
+    o /help per avere aiuto
+    """,
+    'HELP_MESSAGE': """\
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
             scrivi /read per scegliere la categoria da leggere
@@ -33,7 +38,12 @@ texts = {'it': {
         'NEWS_LOADING': 'News loading...',
         'NEXT': 'Next',
         'READ_ALL': 'You read all!',
-        'START_MESSAGE': """\
+        'START_MESSAGE': """
+        Hi, now you can start reading news.
+        type /read to choose the category
+        or /help to get help
+        """,
+        'HELP_MESSAGE': """\
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.
             type /read to choose the category

@@ -26,14 +26,8 @@ type /help to read this message once again
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     print(message)
-    bot.reply_to(message, """\
-Hi welcome to HooBotNews.
-type /read to choose the category
-type /donate to help me
-type /info to get info about the bot
-type /help to read this message once again
-""")
-    hoonewsbot.register_user(user=message.from_user, chat_id=message.chat.id)
+    hoonewsbot.start(message)
+    # hoonewsbot.register_user(user=message.from_user, chat_id=message.chat.id)
 
 
 @bot.message_handler(commands=['donate'])
