@@ -16,10 +16,12 @@ def register_user(user, chat_id):
                            (hoonewsstrings.get_string(user.language_code, 'UPDATE_COUNTRY'), 'UPDATE_COUNTRY', list1)))
 
 
-def update_user_county(chat_id, country):
+def update_user_county_at_start(chat_id, country):
     response = repo.update_user(chat_id, {'country': country.lower()})
+    user = repo.get_user(chat_id)
     if response:
-        message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE', 'OK'))
+        message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE',
+                                               hoonewsstrings.get_string(user['language'], 'START_MESSAGE')))
 
 
 def get_categories(chat_id, lang):
