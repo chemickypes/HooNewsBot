@@ -5,7 +5,7 @@ import hoonewsbot
 from flask import Flask, request
 import os
 
-DEBUG = False
+DEBUG = True
 
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
@@ -125,7 +125,7 @@ def handle_message(hnm):
             markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
-    elif hnm.message_type == 'LOADING':
+    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO']:
         bot.send_message(hnm.chat_id, hnm.content)
     elif hnm.message_type == 'ITEM':
         markup = InlineKeyboardMarkup()
@@ -133,8 +133,6 @@ def handle_message(hnm):
         markup.add(InlineKeyboardButton(hnm.content[2], callback_data=f'ITEM:{hnm.content[1]}:{hnm.chat_id}'))
         bot.send_message(hnm.chat_id,
                          f"{hnm.content[0]['title']}\n{hnm.content[0]['link']}", reply_markup=markup)
-    elif hnm.message_type == 'ITEM_END':
-        bot.send_message(hnm.chat_id, hnm.content)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
