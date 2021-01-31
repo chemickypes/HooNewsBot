@@ -6,6 +6,14 @@ texts = {'it': {
     'NEWS_LOADING': 'Caricamento nuove notizie...',
     'NEXT': 'Prossima notizia',
     'READ_ALL': 'Sei arrivato alla fine!',
+    'START_MESSAGE': """\
+            Ciao Benvenuto/a! Questo è HooNewsBot.
+            Un Feed di notizie senza preoccuaprsi di Cookie.
+            scrivi /read per scegliere la categoria da leggere
+            scrivi /donate per sostenere questo progetto
+            scrivi /info per ottenere info su questo progetto
+            scrivi /help per leggere di nuovo questo messaggio
+            """,
     'CATEGORIES': {
         'world': 'Mondo',
         'business': 'Business',
@@ -25,6 +33,14 @@ texts = {'it': {
         'NEWS_LOADING': 'News loading...',
         'NEXT': 'Next',
         'READ_ALL': 'You read all!',
+        'START_MESSAGE': """\
+            Hi welcome to HooBotNews.
+            You can read news without worrying about leaving cookies.
+            type /read to choose the category
+            type /donate to help me
+            type /info to get info about the bot
+            type /help to read this message once again
+            """,
         'CATEGORIES': {
             'world': 'World',
             'business': 'Business',
