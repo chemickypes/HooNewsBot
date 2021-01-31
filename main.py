@@ -60,7 +60,7 @@ def gen_markup(chat_id, callback_tag, answer_list):
 def callback_query_update_country(call):
     print(call)
     data = call.data.split(':')
-    hoonewsbot.update_user_county(data[2], data[1])
+    hoonewsbot.update_user_county_at_start(data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: 'CATEGORIES_CHOOSE' in call.data)
@@ -116,8 +116,6 @@ def handle_message(hnm):
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=
                          gen_markup(hnm.chat_id, hnm.content[1], [(ii['name'], ii['code']) for ii in hnm.content[2]]))
-    elif hnm.message_type == 'UPDATE':
-        bot.send_message(hnm.chat_id, "Ok")
     elif hnm.message_type == 'CATEGORIES_CHOOSE':
         markup = InlineKeyboardMarkup()
         markup.row_width = 2
@@ -125,7 +123,7 @@ def handle_message(hnm):
             markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
-    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO']:
+    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE']:
         bot.send_message(hnm.chat_id, hnm.content)
     elif hnm.message_type == 'ITEM':
         markup = InlineKeyboardMarkup()
