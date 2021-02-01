@@ -25,8 +25,11 @@ def update_user_county_at_start(chat_id, country):
                                                hoonewsstrings.get_string(user['language'], 'START_MESSAGE')))
 
 
-def update_user_language(message):
-    list_of_langs = repo.get_popular_languages()
+def update_user_language(chat_id, language):
+    response = repo.update_user(chat_id, {'language': language})
+    if response:
+        message_subject.on_next(HooNewsMessage(chat_id, 'INFO',
+                                               hoonewsstrings.get_string(language, 'SETTINGS_UPDATED')))
 
 
 def show_list_of_languages(message):
