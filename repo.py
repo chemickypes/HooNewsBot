@@ -8,13 +8,16 @@ import pycountry
 
 db = write_data.db
 
+cache_user = {}
+
 
 def __resolve_link(link):
     return requests.get(link).url
 
 
 def get_country_list(lang_code):
-    ll = db.collection('languages').document('languages').get().to_dict()[lang_code]
+    ll = db.collection('languages').document('languages').get().to_dict()[lang_code] if lang_code != 'en' else \
+        db.collection('languages').document('popular').get().to_dict()['en']
     countries_for_lang = dict(countries_for_language(lang_code))
     return [{'code': l1, 'name': countries_for_lang[l1]} for l1 in ll]
 
@@ -31,11 +34,15 @@ def start_user(user, chat_id):
 
 def update_user(chat_id, content):
     db.collection('users').document(str(chat_id)).set(content, merge=True)
+    get_user(chat_id, True)
     return 'OK'
 
 
-def get_user(chat_id):
-    return db.collection('users').document(chat_id).get().to_dict()
+def get_user(chat_id, refresh=False):
+    if refresh or cache_user.get(chat_id) is None:
+        cache_user[chat_id] = db.collection('users').document(chat_id).get().to_dict()
+
+    return cache_user[chat_id]
 
 
 def get_categories(chat_id):
@@ -52,7 +59,7 @@ def needs_new_feed(chat_id):
             user['language'],
             user['country'])
     else:
-        return (None, None, None)
+        return None, None, None
 
 
 def write_generic_feeds(lang, country):
