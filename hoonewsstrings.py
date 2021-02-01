@@ -26,6 +26,7 @@ texts = {'it': {
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
             scrivi /read per scegliere la categoria da leggere
+            scrivi /settings per aggiornare il bot
             scrivi /donate per sostenere questo progetto
             scrivi /help per leggere di nuovo questo messaggio
             """,
@@ -71,6 +72,7 @@ scrivi /setcountry per aggiornare la nazione delle notizie
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.
             type /read to choose the category
+            type /settings to update bot
             type /donate to help me
             type /help to read this message once again
             """,
@@ -89,6 +91,13 @@ type /setcountry to update news country
             'general': 'Top News'
         }
     }}
+
+commands_text = """
+read - to choose category
+settings - to update the bot
+donate - to help me
+help - to get help
+"""
 
 
 def get_string(lang_code, string_id):
