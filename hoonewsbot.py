@@ -108,3 +108,11 @@ def donate_message(chat_id, language_code):
             language_code, 'DONATE_MESSAGE'
         ))
     )
+
+
+def show_settings(chat_id, language_code):
+    message_subject.on_next(
+        HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
+            language_code, 'SETTINGS_MESSAGE'
+        ))
+    )

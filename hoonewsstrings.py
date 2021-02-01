@@ -27,9 +27,12 @@ texts = {'it': {
             Un Feed di notizie senza preoccuaprsi di Cookie.
             scrivi /read per scegliere la categoria da leggere
             scrivi /donate per sostenere questo progetto
-            scrivi /info per ottenere info su questo progetto
             scrivi /help per leggere di nuovo questo messaggio
             """,
+    'SETTINGS_MESSAGE': '''
+scrivi /setlanguage per aggiornare la lingua
+scrivi /setcountry per aggiornare la nazione delle notizie
+        ''',
     'CATEGORIES': {
         'world': 'Mondo',
         'business': 'Business',
@@ -69,9 +72,12 @@ texts = {'it': {
             You can read news without worrying about leaving cookies.
             type /read to choose the category
             type /donate to help me
-            type /info to get info about the bot
             type /help to read this message once again
             """,
+        'SETTINGS_MESSAGE': '''
+type /setlanguage to update news language
+type /setcountry to update news country
+        ''',
         'CATEGORIES': {
             'world': 'World',
             'business': 'Business',
