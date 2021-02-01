@@ -73,15 +73,25 @@ def write_generic_feeds(lang, country):
     return True
 
 
-def get_articles(chat_id, category, lang, country):
+def __get_generic_feed(category, lang):
+    feeds = db.collection('feeds').document('generic').collection().where('category', '==', category)
+    return [f"{feed.to_dict['link']}hl={lang}" for feed in feeds]
+
+
+def __get_feeds(category, lang, country):
     feeds = db.collection('feeds').where('category', '==', category) \
         .where('language', '==', lang) \
         .where('country', '==', country).stream()
+    return [feed.to_dict['link'] for feed in feeds]
+
+
+def get_articles(chat_id, category, lang, country):
+    feeds = __get_feeds(category, lang, country) if country else __get_generic_feed(category, lang)
 
     list_of_articles = []
 
     for feed in feeds:
-        ll = feedparser.parse(feed.to_dict()['link'])
+        ll = feedparser.parse(feed)
         list_of_articles.extend(
             [{'id': entry['id'], 'title': entry['title'], 'link': entry['link'],
               'timestamp_parsed': entry['published_parsed']} for entry in ll['entries']]
