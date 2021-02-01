@@ -33,7 +33,7 @@ def update_user_language(chat_id, language):
 
 
 def show_list_of_languages(message):
-    list_of_langs = repo.get_popular_languages()
+    list_of_langs = repo.get_popular_languages(message.from_user.language_code)
     message_subject.on_next(HooNewsMessage(message.chat.id, 'SET_LANGUAGE',
                                            (hoonewsstrings.get_string(message.from_user.language_code,
                                                                       'CHOOSE_LANG_STRING'), list_of_langs)))

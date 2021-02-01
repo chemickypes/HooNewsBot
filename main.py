@@ -10,8 +10,6 @@ DEBUG = True
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
 
-chats_status = {}
-
 
 @bot.message_handler(commands=['help'])
 def send_help(message):
@@ -50,6 +48,7 @@ def callback_query_update_country(call):
     if DEBUG: print(call)
     data = call.data.split(':')
     hoonewsbot.update_user_county_at_start(data[2], data[1])
+
 
 @bot.callback_query_handler(func=lambda call: 'SET_LANGUAGE' in call.data)
 def callback_query_set_language(call):
@@ -137,9 +136,8 @@ def handle_message(hnm):
     elif hnm.message_type == 'SET_LANGUAGE':
         markup = InlineKeyboardMarkup()
         for lang in hnm.content[1]:
-            markup.add(InlineKeyboardButton(lang[0], callback_data=f'SET_LANGUAGE:{lang[1]}:{hnm.chat_id}'))
-        chats_status[hnm.chat_id] = hnm.message_type
-        bot.send_message(hnm.chat_id, hnm.content[0],reply_markup=markup)
+            markup.add(InlineKeyboardButton(lang[0].name, callback_data=f'SET_LANGUAGE:{lang[1]}:{hnm.chat_id}'))
+        bot.send_message(hnm.chat_id, hnm.content[0], reply_markup=markup)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
