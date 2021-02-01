@@ -67,7 +67,7 @@ def callback_query_set_language(call):
 def callback_query_categories(call):
     if DEBUG: print(call)
     data = call.data.split(':')
-    hoonewsbot.make_search(call.from_user.language_code, data[2], data[1])
+    hoonewsbot.make_search(data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: 'ITEM' in call.data)
