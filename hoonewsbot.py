@@ -5,8 +5,6 @@ import hoonewsstrings
 
 message_subject = Subject()
 
-user_cache = {}
-
 
 def register_user(user, chat_id):
     default_language = repo.start_user(user, chat_id)
@@ -39,6 +37,16 @@ def show_list_of_languages(message):
                                                                       'CHOOSE_LANG_STRING'), list_of_langs)))
 
 
+def show_list_of_countries(message):
+    country_list = repo.get_country_list(message.from_user.language_code)
+    user = repo.get_user(message.chat.id)
+    if country_list:
+        message_subject.on_next(
+            HooNewsMessage(message.chat.id, 'UPDATE_COUNTRY',
+                           (hoonewsstrings.get_string(user['language'], 'UPDATE_COUNTRY'), 'UPDATE_COUNTRY',
+                            country_list)))
+
+
 def get_categories(chat_id, lang):
     categories_dict = hoonewsstrings.get_string(lang, 'CATEGORIES')
     message_subject.on_next(HooNewsMessage(chat_id, 'CATEGORIES_CHOOSE',
@@ -49,18 +57,19 @@ def get_categories(chat_id, lang):
 
 def get_article(chat_id, article_id):
     art = repo.get_article(chat_id, article_id)
+    user = repo.get_user(chat_id)
     if art:
         message_subject.on_next(HooNewsMessage(chat_id, 'ITEM', (
-            art, str(int(article_id) + 1, ), hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
+            art, str(int(article_id) + 1, ), hoonewsstrings.get_string(user['language'], 'NEXT'))))
     else:
         message_subject.on_next(
-            HooNewsMessage(chat_id, 'ITEM_END', hoonewsstrings.get_string(user_cache[chat_id][0], 'READ_ALL')))
+            HooNewsMessage(chat_id, 'ITEM_END', hoonewsstrings.get_string(user['language'], 'READ_ALL')))
 
 
 def make_search(language_code, chat_id, category):
+    user = repo.get_user(chat_id)
     need_new_feeds, lang, country = repo.needs_new_feed(chat_id)
     if lang and country:
-        user_cache[chat_id] = [lang, country]
         message_subject.on_next(
             (HooNewsMessage(chat_id, 'LOADING', hoonewsstrings.get_string(lang, 'GENERIC_LOADING'))))
         if need_new_feeds:
@@ -72,7 +81,7 @@ def make_search(language_code, chat_id, category):
         repo.get_articles(chat_id, category, lang, country)
         art = repo.get_article(chat_id, "0")
         message_subject.on_next(
-            HooNewsMessage(chat_id, 'ITEM', (art, '1', hoonewsstrings.get_string(user_cache[chat_id][0], 'NEXT'))))
+            HooNewsMessage(chat_id, 'ITEM', (art, '1', hoonewsstrings.get_string(user['language'], 'NEXT'))))
     else:
         country_list = repo.get_country_list(language_code)
         message_subject.on_next(

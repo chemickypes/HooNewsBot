@@ -35,6 +35,12 @@ def set_language(message):
     hoonewsbot.show_list_of_languages(message)
 
 
+@bot.message_handler(commands=['setcountry'])
+def set_language(message):
+    if DEBUG: print(message)
+    hoonewsbot.show_list_of_countries(message)
+
+
 def gen_markup(chat_id, callback_tag, answer_list):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
