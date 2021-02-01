@@ -4,49 +4,51 @@ from datetime import datetime
 from time import mktime
 import requests
 from country_list import countries_for_language
+import pycountry
 
 db = write_data.db
+
+cache_user = {}
 
 
 def __resolve_link(link):
     return requests.get(link).url
 
 
-def __get_country_list(lang_code):
-    ll = db.collection('languages').document('languages').get().to_dict()[lang_code]
+def get_country_list(lang_code):
+    ll = db.collection('languages').document('languages').get().to_dict()[lang_code] if lang_code != 'en' else \
+        db.collection('languages').document('popular').get().to_dict()['en']
     countries_for_lang = dict(countries_for_language(lang_code))
     return [{'code': l1, 'name': countries_for_lang[l1]} for l1 in ll]
 
 
 def start_user(user, chat_id):
-    uuser = {'name': user.first_name, 'language': user.language_code, 'username': user.username}
+    uuser = {'name': user.first_name, 'language': user.language_code if user.language_code else 'en',
+             'username': user.username}
     db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return __get_country_list(user.language_code)
+        return pycountry.languages.get(alpha_2=user.language_code if user.language_code else 'en')
     except LookupError:
         return []
 
 
 def update_user(chat_id, content):
     db.collection('users').document(str(chat_id)).set(content, merge=True)
+    get_user(chat_id, True)
     return 'OK'
 
 
-def get_user(chat_id):
-    return db.collection('users').document(chat_id).get().to_dict()
+def get_user(chat_id, refresh=False):
+    cc_id = chat_id if type(chat_id) is str else str(chat_id)
+
+    if refresh or cache_user.get(cc_id) is None:
+        cache_user[cc_id] = db.collection('users').document(cc_id).get().to_dict()
+
+    return cache_user[cc_id]
 
 
 def get_categories(chat_id):
     return db.collection('feeds').document('categories').get().to_dict()['categories']
-
-
-def needs_new_feed(chat_id):
-    user = get_user(chat_id)
-    countries = db.collection('feeds').document('countries').get().to_dict()
-
-    return (
-        user['language'] not in countries['lang'] or user['country'] not in countries['countries'], user['language'],
-        user['country'])
 
 
 def write_generic_feeds(lang, country):
@@ -58,15 +60,30 @@ def write_generic_feeds(lang, country):
     return True
 
 
+def __get_feeds(category, lang, country):
+    feeds = []
+    feeds.extend(list(db.collection('feeds').where('category', '==', category).stream()))
+    feeds.extend(
+        list(db.collection('feeds').document(lang).collection('feeds').where('category', '==', category).stream()))
+    feeds_list = []
+    for feed in feeds:
+        fdict = feed.to_dict()
+        link = fdict['link']
+        if fdict.get('lang_param'):
+            link += fdict['lang_param'].format(lang)
+        if fdict.get('country_param'):
+            link += "&" + fdict['country_param'].format(country)
+        feeds_list.append(link)
+    return feeds_list
+
+
 def get_articles(chat_id, category, lang, country):
-    feeds = db.collection('feeds').where('category', '==', category) \
-        .where('language', '==', lang) \
-        .where('country', '==', country).stream()
+    feeds = __get_feeds(category, lang, country)
 
     list_of_articles = []
 
     for feed in feeds:
-        ll = feedparser.parse(feed.to_dict()['link'])
+        ll = feedparser.parse(feed)
         list_of_articles.extend(
             [{'id': entry['id'], 'title': entry['title'], 'link': entry['link'],
               'timestamp_parsed': entry['published_parsed']} for entry in ll['entries']]
@@ -101,4 +118,12 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print('0ciao')
+    print(pycountry.languages.get(alpha_2='en'))
+
+
+def get_popular_languages(language_code):
+    list_of_langs = db.collection('languages').document('popular').get().to_dict()['languages']
+    if language_code not in list_of_langs:
+        list_of_langs.append(language_code)
+
+    return [(pycountry.languages.get(alpha_2=lang), lang) for lang in list_of_langs]
