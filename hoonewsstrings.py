@@ -1,5 +1,5 @@
 texts = {'it': {
-    'UPDATE_COUNTRY': 'Dove vivi?',
+    'UPDATE_COUNTRY': 'Seleziona uno Stato:',
     'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?',
     'GENERIC_LOADING': 'Attendere...',
     'NEW_FEEDS_LOADING': 'Caricamento nuovi feed...',
@@ -9,11 +9,10 @@ texts = {'it': {
     'ERROR_COUNTRY': 'Ops, non so dove vivi, mi serve saperlo per personalizzare la tua ricerca.',
     'WELCOME_MESSAGE': 'Ciao, benvenuto su HooNewsBot!',
     'CHOOSE_LANG_STRING': 'Seleziona la lingua:',
-    'SETTINGS_UPDATED': 'Impostazioni aggiornate! ',
     'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
-    'START_MESSAGE': """\
-    Perfetto, grazie! Adesso puoi leggere le notizie.
+    'SETTINGS_UPDATED': """\
+    Perfetto, grazie! Impostazioni aggiornate!
     scrivi /read per cominciare
     o /help per avere aiuto
     """,
@@ -43,7 +42,7 @@ texts = {'it': {
     }
 },
     'en': {
-        'UPDATE_COUNTRY': 'Where do you live?',
+        'UPDATE_COUNTRY': 'Select a country:',
         'CATEGORIES_CHOOSE': 'What do you want to read?',
         'GENERIC_LOADING': 'Waiting...',
         'NEW_FEEDS_LOADING': 'New feeds loading...',
@@ -53,12 +52,11 @@ texts = {'it': {
         'ERROR_COUNTRY': 'Ops, I don\'y know where do you live. I need to know to fit the feed',
         'WELCOME_MESSAGE': 'Hi,wellcome to HooNewsBot!',
         'CHOOSE_LANG_STRING': 'Select tongue:',
-        'SETTINGS_UPDATED': 'Settings Updated! ',
         'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
         'DEFAULT_LANGUAGE_INFO': 'Default news language is {}. You can change typing /setlanguage \n Type /read to start reading',
-        'START_MESSAGE': """
-        Oh, Thank you! Now you can start reading news.
-        type /read to choose the category
+        'SETTINGS_UPDATED': """
+        Oh, Thank you! Settings Updated!.
+        Type /read to choose the category
         or /help to get help
         """,
         'DONATE_MESSAGE': """\
