@@ -60,13 +60,11 @@ def write_generic_feeds(lang, country):
     return True
 
 
-def __get_generic_feed(category, lang):
-    feeds = db.collection('feeds').document('generic').collection('feeds').where('category', '==', category).stream()
-    return [f"{feed.to_dict()['link']}hl={lang}" for feed in feeds]
-
-
 def __get_feeds(category, lang, country):
-    feeds = db.collection('feeds').where('category', '==', category).stream()
+    feeds = []
+    feeds.extend(list(db.collection('feeds').where('category', '==', category).stream()))
+    feeds.extend(
+        list(db.collection('feeds').document(lang).collection('feeds').where('category', '==', category).stream()))
     feeds_list = []
     for feed in feeds:
         fdict = feed.to_dict()
@@ -74,7 +72,7 @@ def __get_feeds(category, lang, country):
         if fdict.get('lang_param'):
             link += fdict['lang_param'].format(lang)
         if fdict.get('country_param'):
-            link += "&"+fdict['country_param'].format(country)
+            link += "&" + fdict['country_param'].format(country)
         feeds_list.append(link)
     return feeds_list
 
