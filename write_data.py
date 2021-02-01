@@ -37,11 +37,26 @@ def write_generic_feeds(lang, country):
 
 def write_generic_feeds_without_country():
     for i, cat in categories.items():
-        db.collection('feeds').document('generic').collection('feeds').document().set({
+        db.collection('feeds').document().set({
             'link': rss_url_struct_1.format(categories[i]) if i != '8' else general_rss_structure_1,
             'category': cat.lower(),
+            'lang_param': 'hl={}',
+            'country_param': 'gl={}'
         }, merge=True)
 
 
+def delete_mine_live_search():
+    pass
+
+
+def delete_all_feeds():
+    for doc in db.collection('feeds').stream():
+        doc.reference.delete()
+    for doc in db.collection('feeds').document('generic').collection('feeds').stream():
+        doc.reference.delete()
+    db.collection('feeds').document('generic').delete()
+
+
 if __name__ == '__main__':
-    write_generic_feeds_without_country()
+    db.collection('feeds').document('categories').set({
+        'categories': [cat.lower() for i, cat in categories.items()]})
