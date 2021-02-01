@@ -57,9 +57,9 @@ def needs_new_feed(chat_id):
 
     if user:
         return (
-            user['language'] not in countries['lang'] or user['country'] not in countries['countries'],
+            user['language'] not in countries['lang'] or user.get('country') not in countries['countries'],
             user['language'],
-            user['country'])
+            user.get('country'))
     else:
         return None, None, None
 
@@ -74,8 +74,8 @@ def write_generic_feeds(lang, country):
 
 
 def __get_generic_feed(category, lang):
-    feeds = db.collection('feeds').document('generic').collection().where('category', '==', category)
-    return [f"{feed.to_dict['link']}hl={lang}" for feed in feeds]
+    feeds = db.collection('feeds').document('generic').collection('feeds').where('category', '==', category).stream()
+    return [f"{feed.to_dict()['link']}hl={lang}" for feed in feeds]
 
 
 def __get_feeds(category, lang, country):
