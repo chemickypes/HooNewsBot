@@ -9,11 +9,11 @@ user_cache = {}
 
 
 def register_user(user, chat_id):
-    list1 = repo.start_user(user, chat_id)
-    if len(list1) > 0:
-        message_subject.on_next(
-            HooNewsMessage(chat_id, 'UPDATE_COUNTRY',
-                           (hoonewsstrings.get_string(user.language_code, 'UPDATE_COUNTRY'), 'UPDATE_COUNTRY', list1)))
+    default_language = repo.start_user(user, chat_id)
+    message_subject.on_next(HooNewsMessage(chat_id, 'INFO',
+                            hoonewsstrings.get_string(default_language.alpha_2, 'DEFAULT_LANGUAGE_INFO').format(
+                                default_language.name
+                            )))
 
 
 def update_user_county_at_start(chat_id, country):
@@ -22,6 +22,10 @@ def update_user_county_at_start(chat_id, country):
     if response:
         message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE',
                                                hoonewsstrings.get_string(user['language'], 'START_MESSAGE')))
+
+
+def update_user_language(message):
+    return None
 
 
 def get_categories(chat_id, lang):

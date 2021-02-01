@@ -10,6 +10,8 @@ DEBUG = False
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
 
+chats_status = {}
+
 
 @bot.message_handler(commands=['help'])
 def send_help(message):
@@ -29,7 +31,6 @@ def send_donate_info(message):
     hoonewsbot.donate_message(message.chat.id, message.from_user.language_code)
 
 
-
 def gen_markup(chat_id, callback_tag, answer_list):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
@@ -47,21 +48,21 @@ def callback_query_update_country(call):
 
 @bot.callback_query_handler(func=lambda call: 'CATEGORIES_CHOOSE' in call.data)
 def callback_query_categories(call):
-    print(call)
+    if DEBUG: print(call)
     data = call.data.split(':')
     hoonewsbot.make_search(call.from_user.language_code, data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: 'ITEM' in call.data)
 def callback_query_item(call):
-    print(call)
+    if DEBUG: print(call)
     data = call.data.split(':')
     hoonewsbot.get_article(data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
-    print(call)
+    if DEBUG: print(call)
     '''data = call.data.split(':')
    bot.send_message(data[1], "Attendere...")
     hoonewsbot.list_of_news(data[0], call.from_user.language_code).subscribe(
@@ -71,8 +72,16 @@ def callback_query(call):
 
 @bot.message_handler(commands=['read'])
 def read(message):
-    print(message)
+    if DEBUG: print(message)
     hoonewsbot.get_categories(message.chat.id, message.from_user.language_code)
+
+
+@bot.message_handler(func=lambda message: True)
+def handle_generic_message(message):
+    if DEBUG: print(message)
+    if (str(message.chat.id) in chats_status or message.chat.id in chats_status) and chats_status[message.chat.id] \
+            == 'SETTING_LANGUAGE':
+        hoonewsbot.update_user_language(message)
 
 
 @server.route('/' + secrets.BOT_TOKEN, methods=['POST'])
@@ -105,7 +114,7 @@ def handle_message(hnm):
             markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
-    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE','ERROR']:
+    elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE', 'ERROR']:
         bot.send_message(hnm.chat_id, hnm.content)
     elif hnm.message_type == 'ITEM':
         markup = InlineKeyboardMarkup()
@@ -113,6 +122,9 @@ def handle_message(hnm):
         markup.add(InlineKeyboardButton(hnm.content[2], callback_data=f'ITEM:{hnm.content[1]}:{hnm.chat_id}'))
         bot.send_message(hnm.chat_id,
                          f"{hnm.content[0]['title']}\n{hnm.content[0]['link']}", reply_markup=markup)
+    elif hnm.message_type == 'SET_LANGUAGE':
+        chats_status[hnm.chat_id] = hnm.message_type
+        bot.send_message(hnm.chat_id, hnm.content)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)

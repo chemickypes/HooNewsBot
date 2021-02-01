@@ -4,6 +4,7 @@ from datetime import datetime
 from time import mktime
 import requests
 from country_list import countries_for_language
+import pycountry
 
 db = write_data.db
 
@@ -19,10 +20,11 @@ def get_country_list(lang_code):
 
 
 def start_user(user, chat_id):
-    uuser = {'name': user.first_name, 'language': user.language_code, 'username': user.username}
+    uuser = {'name': user.first_name, 'language': user.language_code if user.language_code else 'en',
+             'username': user.username}
     db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return get_country_list(user.language_code)
+        return pycountry.languages.get(user.language_code if user.language_code else 'en')
     except LookupError:
         return []
 
@@ -105,4 +107,4 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print('0ciao')
+    print(pycountry.languages.get(alpha_2='en'))
