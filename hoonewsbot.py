@@ -11,9 +11,10 @@ user_cache = {}
 def register_user(user, chat_id):
     default_language = repo.start_user(user, chat_id)
     message_subject.on_next(HooNewsMessage(chat_id, 'INFO',
-                            hoonewsstrings.get_string(default_language.alpha_2, 'DEFAULT_LANGUAGE_INFO').format(
-                                default_language.name
-                            )))
+                                           hoonewsstrings.get_string(default_language.alpha_2,
+                                                                     'DEFAULT_LANGUAGE_INFO').format(
+                                               default_language.name
+                                           )))
 
 
 def update_user_county_at_start(chat_id, country):
@@ -25,7 +26,14 @@ def update_user_county_at_start(chat_id, country):
 
 
 def update_user_language(message):
-    return None
+    list_of_langs = repo.get_popular_languages()
+
+
+def show_list_of_languages(message):
+    list_of_langs = repo.get_popular_languages()
+    message_subject.on_next(HooNewsMessage(message.chat.id, 'SET_LANGUAGE',
+                                           (hoonewsstrings.get_string(message.from_user.language_code,
+                                                                      'CHOOSE_LANG_STRING'), list_of_langs)))
 
 
 def get_categories(chat_id, lang):

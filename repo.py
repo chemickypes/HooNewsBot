@@ -108,3 +108,11 @@ def get_article(chat_id, article_id):
 
 if __name__ == '__main__':
     print(pycountry.languages.get(alpha_2='en'))
+
+
+def get_popular_languages(language_code):
+    list_of_langs = db.collection('languages').document('popular').get().to_dict()['languages']
+    if language_code not in list_of_langs:
+        list_of_langs.append(language_code)
+
+    return [(pycountry.languages.get(alpha_2=lang), lang) for lang in list_of_langs]

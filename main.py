@@ -31,6 +31,12 @@ def send_donate_info(message):
     hoonewsbot.donate_message(message.chat.id, message.from_user.language_code)
 
 
+@bot.message_handler(commands=['setlanguage'])
+def set_language(message):
+    if DEBUG: print(message)
+    hoonewsbot.show_list_of_languages(message)
+
+
 def gen_markup(chat_id, callback_tag, answer_list):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
@@ -123,8 +129,11 @@ def handle_message(hnm):
         bot.send_message(hnm.chat_id,
                          f"{hnm.content[0]['title']}\n{hnm.content[0]['link']}", reply_markup=markup)
     elif hnm.message_type == 'SET_LANGUAGE':
+        markup = InlineKeyboardMarkup()
+        for lang in hnm.content[1]:
+            markup.add(InlineKeyboardButton(lang[0], callback_data=f'SET_LANGUAGE:{lang[1]}:{hnm.chat_id}'))
         chats_status[hnm.chat_id] = hnm.message_type
-        bot.send_message(hnm.chat_id, hnm.content)
+        bot.send_message(hnm.chat_id, hnm.content[0],reply_markup=markup)
 
 
 hoonewsbot.message_subject.subscribe(handle_message)
