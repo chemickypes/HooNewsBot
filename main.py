@@ -5,7 +5,7 @@ import hoonewsbot
 from flask import Flask, request
 import os
 
-DEBUG = False
+DEBUG = True
 
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)

@@ -7,7 +7,7 @@ texts = {'it': {
     'NEXT': 'Prossima notizia',
     'READ_ALL': 'Sei arrivato alla fine!',
     'ERROR_COUNTRY': 'Ops, non so dove vivi, mi serve saperlo per personalizzare la tua ricerca.',
-    'WELCOME_MESSAGE': 'Ciao, mi servirebbe giusto un\'informazione per iniziare',
+    'WELCOME_MESSAGE': 'Ciao, benvenuto su HooNewsBot!',
     'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
     'START_MESSAGE': """\
@@ -49,7 +49,7 @@ texts = {'it': {
         'NEXT': 'Next',
         'READ_ALL': 'You read all!',
         'ERROR_COUNTRY': 'Ops, I don\'y know where do you live. I need to know to fit the feed',
-        'WELCOME_MESSAGE': 'Hi, I need just one info before starting',
+        'WELCOME_MESSAGE': 'Hi,wellcome to HooNewsBot!',
         'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
         'DEFAULT_LANGUAGE_INFO': 'Default language is {}. You can change typing /setlanguage \n Type /read to start reading',
         'START_MESSAGE': """
