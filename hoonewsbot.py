@@ -20,7 +20,7 @@ def update_user_county_at_start(chat_id, country):
     user = repo.get_user(chat_id)
     if response:
         message_subject.on_next(HooNewsMessage(chat_id, 'UPDATE',
-                                               hoonewsstrings.get_string(user['language'], 'START_MESSAGE')))
+                                               hoonewsstrings.get_string(user['language'], 'SETTINGS_UPDATED')))
 
 
 def update_user_language(chat_id, language):
@@ -39,7 +39,7 @@ def show_list_of_languages(message):
 
 def show_list_of_countries(message):
     country_list = repo.get_country_list(message.from_user.language_code)
-    user = repo.get_user(message.chat.id)
+    user = repo.get_user(str(message.chat.id))
     if country_list:
         message_subject.on_next(
             HooNewsMessage(message.chat.id, 'UPDATE_COUNTRY',

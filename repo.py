@@ -39,10 +39,12 @@ def update_user(chat_id, content):
 
 
 def get_user(chat_id, refresh=False):
-    if refresh or cache_user.get(chat_id) is None:
-        cache_user[chat_id] = db.collection('users').document(chat_id).get().to_dict()
+    cc_id = chat_id if type(chat_id) is str else str(chat_id)
 
-    return cache_user[chat_id]
+    if refresh or cache_user.get(cc_id) is None:
+        cache_user[cc_id] = db.collection('users').document(cc_id).get().to_dict()
+
+    return cache_user[cc_id]
 
 
 def get_categories(chat_id):
