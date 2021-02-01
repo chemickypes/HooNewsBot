@@ -8,6 +8,7 @@ texts = {'it': {
     'READ_ALL': 'Sei arrivato alla fine!',
     'ERROR_COUNTRY': 'Ops, non so dove vivi, mi serve saperlo per personalizzare la tua ricerca.',
     'WELCOME_MESSAGE': 'Ciao, benvenuto su HooNewsBot!',
+    'CHOOSE_LANG_STRING': 'Seleziona la lingua:',
     'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
     'START_MESSAGE': """\
@@ -50,6 +51,7 @@ texts = {'it': {
         'READ_ALL': 'You read all!',
         'ERROR_COUNTRY': 'Ops, I don\'y know where do you live. I need to know to fit the feed',
         'WELCOME_MESSAGE': 'Hi,wellcome to HooNewsBot!',
+        'CHOOSE_LANG_STRING': 'Select tongue:',
         'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
         'DEFAULT_LANGUAGE_INFO': 'Default language is {}. You can change typing /setlanguage \n Type /read to start reading',
         'START_MESSAGE': """
