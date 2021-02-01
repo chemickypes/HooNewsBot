@@ -51,19 +51,6 @@ def get_categories(chat_id):
     return db.collection('feeds').document('categories').get().to_dict()['categories']
 
 
-def needs_new_feed(chat_id):
-    user = get_user(chat_id)
-    countries = db.collection('feeds').document('countries').get().to_dict()
-
-    if user:
-        return (
-            user['language'] not in countries['lang'] or user.get('country') not in countries['countries'],
-            user['language'],
-            user.get('country'))
-    else:
-        return None, None, None
-
-
 def write_generic_feeds(lang, country):
     countries = db.collection('feeds').document('countries').get().to_dict()
     write_data.write_generic_feeds(lang, country)
@@ -79,14 +66,21 @@ def __get_generic_feed(category, lang):
 
 
 def __get_feeds(category, lang, country):
-    feeds = db.collection('feeds').where('category', '==', category) \
-        .where('language', '==', lang) \
-        .where('country', '==', country).stream()
-    return [feed.to_dict['link'] for feed in feeds]
+    feeds = db.collection('feeds').where('category', '==', category).stream()
+    feeds_list = []
+    for feed in feeds:
+        fdict = feed.to_dict()
+        link = fdict['link']
+        if fdict.get('lang_param'):
+            link += fdict['lang_param'].format(lang)
+        if fdict.get('country_param'):
+            link += "&"+fdict['country_param'].format(country)
+        feeds_list.append(link)
+    return feeds_list
 
 
 def get_articles(chat_id, category, lang, country):
-    feeds = __get_feeds(category, lang, country) if country else __get_generic_feed(category, lang)
+    feeds = __get_feeds(category, lang, country)
 
     list_of_articles = []
 
