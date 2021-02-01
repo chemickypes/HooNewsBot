@@ -24,7 +24,7 @@ def start_user(user, chat_id):
              'username': user.username}
     db.collection('users').document(str(chat_id)).set(uuser, merge=True)
     try:
-        return pycountry.languages.get(user.language_code if user.language_code else 'en')
+        return pycountry.languages.get(alpha_2=user.language_code if user.language_code else 'en')
     except LookupError:
         return []
 
