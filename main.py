@@ -51,6 +51,12 @@ def callback_query_update_country(call):
     data = call.data.split(':')
     hoonewsbot.update_user_county_at_start(data[2], data[1])
 
+@bot.callback_query_handler(func=lambda call: 'SET_LANGUAGE' in call.data)
+def callback_query_set_language(call):
+    if DEBUG: print(call)
+    data = call.data.split(':')
+    hoonewsbot.update_user_language(data[2], data[1])
+
 
 @bot.callback_query_handler(func=lambda call: 'CATEGORIES_CHOOSE' in call.data)
 def callback_query_categories(call):
