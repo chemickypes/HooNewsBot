@@ -41,6 +41,12 @@ def set_language(message):
     hoonewsbot.show_list_of_countries(message)
 
 
+@bot.message_handler(commands=['settings'])
+def settings(message):
+    if DEBUG: print(message)
+    hoonewsbot.show_settings(message.chat.id, message.from_user.language_code)
+
+
 def gen_markup(chat_id, callback_tag, answer_list):
     markup = InlineKeyboardMarkup()
     markup.row_width = 2
@@ -96,9 +102,6 @@ def read(message):
 @bot.message_handler(func=lambda message: True)
 def handle_generic_message(message):
     if DEBUG: print(message)
-    if (str(message.chat.id) in chats_status or message.chat.id in chats_status) and chats_status[message.chat.id] \
-            == 'SETTING_LANGUAGE':
-        hoonewsbot.update_user_language(message)
 
 
 @server.route('/' + secrets.BOT_TOKEN, methods=['POST'])
