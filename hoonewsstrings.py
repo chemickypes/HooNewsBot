@@ -11,6 +11,7 @@ texts = {'it': {
     'CHOOSE_LANG_STRING': 'Seleziona la lingua:',
     'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
+    'TYPE_NEW_FEED': 'Scrivi il link del feed che vuoi aggiungere:',
     'SETTINGS_UPDATED': """\
     Perfetto, grazie! Impostazioni aggiornate!
     scrivi /read per cominciare
@@ -59,6 +60,7 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'CHOOSE_LANG_STRING': 'Select tongue:',
         'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
         'DEFAULT_LANGUAGE_INFO': 'Default news language is {}. You can change typing /setlanguage \n Type /read to start reading',
+        'TYPE_NEW_FEED': 'Type the feed link you want add:',
         'SETTINGS_UPDATED': """
         Oh, Thank you! Settings Updated!.
         Type /read to choose the category
