@@ -61,9 +61,8 @@ def write_generic_feeds(lang, country):
 
 
 def __get_feeds(category, lang, chat_id, country=None):
-    feeds = []
-    feeds.extend(list(db.collection('feeds').where('category', '==', category).
-                      where('target', 'array_contains_any', ['all', lang, str(chat_id)]).stream()))
+    feeds = list(db.collection('feeds').where('category', '==', category).
+                 where('target', 'array_contains_any', ['all', lang, str(chat_id)]).stream())
     feeds_list = []
     for feed in feeds:
         fdict = feed.to_dict()
