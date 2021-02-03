@@ -25,7 +25,8 @@ texts = {'it': {
     'HELP_MESSAGE': """\
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
-            scrivi /read per scegliere la categoria da leggere
+            scrivi /read per iniziare a leggere
+            scrivi /category per scegliere la categoria da leggere
             scrivi /settings per aggiornare il bot
             scrivi /donate per sostenere questo progetto
             scrivi /help per leggere di nuovo questo messaggio
@@ -71,7 +72,8 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'HELP_MESSAGE': """\
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.
-            type /read to choose the category
+            type /read to start reading
+            type /category to choose the category of news you want read
             type /settings to update bot
             type /donate to help me
             type /help to read this message once again

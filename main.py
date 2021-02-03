@@ -5,7 +5,7 @@ import hoonewsbot
 from flask import Flask, request
 import os
 
-DEBUG = False
+DEBUG = True
 
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
@@ -93,10 +93,16 @@ def callback_query(call):
     )'''
 
 
+@bot.message_handler(commands=['category'])
+def category(message):
+    if DEBUG: print(message)
+    hoonewsbot.get_categories(message.chat.id, message.from_user.language_code)
+
+
 @bot.message_handler(commands=['read'])
 def read(message):
     if DEBUG: print(message)
-    hoonewsbot.get_categories(message.chat.id, message.from_user.language_code)
+    hoonewsbot.make_search(message.chat.id, 'general')
 
 
 @bot.message_handler(func=lambda message: True)
