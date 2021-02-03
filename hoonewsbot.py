@@ -5,6 +5,8 @@ import hoonewsstrings
 
 message_subject = Subject()
 
+add_feed_session = {}
+
 
 def register_user(user, chat_id):
     default_language = repo.start_user(user, chat_id)
@@ -114,5 +116,14 @@ def show_settings(chat_id, language_code):
     message_subject.on_next(
         HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
             language_code, 'SETTINGS_MESSAGE'
+        ))
+    )
+
+
+def start_add_feed(message):
+    add_feed_session[str(message.chat.id)] = {}
+    message_subject.on_next(
+        HooNewsMessage(str(message.chat.id), 'INFO', hoonewsstrings.get_string(
+            message.from_user.language_code, 'TYPE_NEW_FEED'
         ))
     )
