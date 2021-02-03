@@ -136,8 +136,15 @@ def handle_message(hnm):
     elif hnm.message_type == 'CATEGORIES_CHOOSE':
         markup = InlineKeyboardMarkup()
         markup.row_width = 2
-        for cat in hnm.content[2]:
-            markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
+        for i in range(0, len(hnm.content[2]), 2):
+            if i + 1 == len(hnm.content[2]):
+                cat = hnm.content[2][i]
+                markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"))
+            else:
+                cat = hnm.content[2][i]
+                cat1 = hnm.content[2][i + 1]
+                markup.add(InlineKeyboardButton(cat[0], callback_data=f"CATEGORIES_CHOOSE:{cat[1]}:{hnm.chat_id}"),
+                           InlineKeyboardButton(cat1[0], callback_data=f"CATEGORIES_CHOOSE:{cat1[1]}:{hnm.chat_id}"))
         bot.send_message(hnm.chat_id,
                          hnm.content[0], reply_markup=markup)
     elif hnm.message_type in ['LOADING', 'ITEM_END', 'INFO', 'UPDATE', 'ERROR']:
