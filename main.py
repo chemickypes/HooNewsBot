@@ -76,7 +76,7 @@ def add_feed(message):
 @bot.message_handler(func=lambda message: True)
 def handle_generic_message(message):
     if DEBUG: print(message)
-
+    hoonewsbot.handle_generic_message(message)
 
 @bot.callback_query_handler(func=lambda call: 'UPDATE_COUNTRY' in call.data)
 def callback_query_update_country(call):

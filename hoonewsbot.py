@@ -127,3 +127,7 @@ def start_add_feed(message):
             message.from_user.language_code, 'TYPE_NEW_FEED'
         ))
     )
+
+
+def handle_generic_message(message):
+    pass
