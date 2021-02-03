@@ -60,7 +60,7 @@ def write_generic_feeds(lang, country):
     return True
 
 
-def __get_feeds(category, lang, country):
+def __get_feeds(category, lang, country=None):
     feeds = []
     feeds.extend(list(db.collection('feeds').where('category', '==', category).stream()))
     feeds.extend(
@@ -118,7 +118,7 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print(pycountry.languages.get(alpha_2='en'))
+    print(__get_feeds('general', 'it'))
 
 
 def get_popular_languages(language_code):
