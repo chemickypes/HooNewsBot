@@ -53,10 +53,10 @@ def show_list_of_countries(message):
 def get_categories(chat_id, lang, caption_text=None):
     categories_dict = hoonewsstrings.get_string(lang, 'CATEGORIES')
     message_subject.on_next(HooNewsMessage(chat_id, 'CATEGORIES_CHOOSE',
-                                           caption_text if caption_text else (
-                                               hoonewsstrings.get_string(lang, 'CATEGORIES_CHOOSE'),
-                                               'CATEGORIES_CHOOSE', [(categories_dict[cat_id], cat_id) for cat_id in
-                                                                     repo.get_categories(chat_id)])))
+                                           (caption_text if caption_text else hoonewsstrings.get_string(lang,
+                                                                                                        'CATEGORIES_CHOOSE'),
+                                            'CATEGORIES_CHOOSE', [(categories_dict[cat_id], cat_id) for cat_id in
+                                                                  repo.get_categories(chat_id)])))
 
 
 def get_article(chat_id, article_id):
@@ -166,6 +166,7 @@ def handle_category_choose(chat_id, category):
                 ))
             )
         else:
+            print(detail)
             message_subject.on_next(
                 HooNewsMessage(chat_id, 'ERROR', hoonewsstrings.get_string(
                     user['language'], 'FEED_NOT_VALID'
