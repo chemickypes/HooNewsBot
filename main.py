@@ -78,6 +78,7 @@ def handle_generic_message(message):
     if DEBUG: print(message)
     hoonewsbot.handle_generic_message(message)
 
+
 @bot.callback_query_handler(func=lambda call: 'UPDATE_COUNTRY' in call.data)
 def callback_query_update_country(call):
     if DEBUG: print(call)
@@ -96,7 +97,7 @@ def callback_query_set_language(call):
 def callback_query_categories(call):
     if DEBUG: print(call)
     data = call.data.split(':')
-    hoonewsbot.make_search(data[2], data[1])
+    hoonewsbot.handle_category_choose(data[2], data[1])
 
 
 @bot.callback_query_handler(func=lambda call: 'ITEM' in call.data)
