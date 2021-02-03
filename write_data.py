@@ -1,6 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import feedparser
 
 rss_url_struct = "https://news.google.com/news/rss/headlines/section/topic/{}?{}"
 general_rss_structure = "https://news.google.com/news/rss/?{}"
@@ -41,7 +42,8 @@ def write_generic_feeds_without_country():
             'link': rss_url_struct_1.format(categories[i]) if i != '8' else general_rss_structure_1,
             'category': cat.lower(),
             'lang_param': 'hl={}',
-            'country_param': 'gl={}'
+            'country_param': 'gl={}',
+            'target': ['all']
         }, merge=True)
 
 
@@ -57,6 +59,36 @@ def delete_all_feeds():
     db.collection('feeds').document('generic').delete()
 
 
+def write_feed(url, category, target):
+    u_stripped = url.strip()
+    feed = feedparser.parse(u_stripped)
+    print(feed.feed)
+    doc = db.collection('feeds').where('link', '==', u_stripped).get()
+    if doc:
+        print('update doc')
+        target_list = list(doc)[0].to_dict()['target']
+        target_list.append(target)
+        list(doc)[0].reference.set({
+            'target': target_list,
+            'title': feed.feed.title,
+            'subtitle': feed.feed.subtitle
+        }, merge=True)
+    else:
+        print('create doc')
+        db.collection('feeds').document().set({
+            'link': url,
+            'category': category,
+            'language': feed.feed.language,
+            'target': [target],
+            'title': feed.feed.title,
+            'subtitle': feed.feed.subtitle
+        }, merge=True)
+
+
 if __name__ == '__main__':
+    '''delete_all_feeds()
+    write_generic_feeds_without_country()
     db.collection('feeds').document('categories').set({
-        'categories': [cat.lower() for i, cat in categories.items()]})
+        'categories': [cat.lower() for i, cat in categories.items()]})'''
+    # write_feed('https://www.wired.it/feed/', 'general', 'it')
+    write_feed('https://www.wired.it/feed/  ', 'general', 'it')
