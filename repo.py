@@ -122,7 +122,7 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print(__get_feeds('general', 'it', 8976561))
+    print(__get_feeds('general', 'it', ''))
 
 
 def get_popular_languages(language_code):
