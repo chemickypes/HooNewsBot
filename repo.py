@@ -60,25 +60,24 @@ def write_generic_feeds(lang, country):
     return True
 
 
-def __get_feeds(category, lang, country=None):
+def __get_feeds(category, lang, chat_id, country=None):
     feeds = []
-    feeds.extend(list(db.collection('feeds').where('category', '==', category).stream()))
-    feeds.extend(
-        list(db.collection('feeds').document(lang).collection('feeds').where('category', '==', category).stream()))
+    feeds.extend(list(db.collection('feeds').where('category', '==', category).
+                      where('target', 'array_contains_any', ['all', lang, str(chat_id)]).stream()))
     feeds_list = []
     for feed in feeds:
         fdict = feed.to_dict()
         link = fdict['link']
         if fdict.get('lang_param'):
             link += fdict['lang_param'].format(lang)
-        if fdict.get('country_param'):
+        if fdict.get('country_param') and country:
             link += "&" + fdict['country_param'].format(country)
         feeds_list.append(link)
     return feeds_list
 
 
 def get_articles(chat_id, category, lang, country):
-    feeds = __get_feeds(category, lang, country)
+    feeds = __get_feeds(category, lang, chat_id, country)
 
     list_of_articles = []
 
@@ -118,7 +117,7 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print(__get_feeds('general', 'it'))
+    print(__get_feeds('general', 'it', 8976561))
 
 
 def get_popular_languages(language_code):
