@@ -80,7 +80,6 @@ def write_feed(url, category, target):
             db.collection('feeds').document().set({
                 'link': url,
                 'category': category,
-                'language': feed.feed.language,
                 'target': [target],
                 'title': feed.feed.title,
                 'subtitle': feed.feed.subtitle
