@@ -1,6 +1,7 @@
 texts = {'it': {
     'UPDATE_COUNTRY': 'Seleziona uno Stato:',
-    'CATEGORIES_CHOOSE': 'Cosa vuoi leggere?',
+    'CATEGORIES_CHOOSE': 'Seleziona una categoria:',
+    'CATEGORY_OF_NEW_FEED': 'Seleziona una categoria per il nuovo feed:',
     'GENERIC_LOADING': 'Attendere...',
     'NEW_FEEDS_LOADING': 'Caricamento nuovi feed...',
     'NEWS_LOADING': 'Caricamento nuove notizie...',
@@ -12,6 +13,10 @@ texts = {'it': {
     'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
     'TYPE_NEW_FEED': 'Scrivi il link del feed che vuoi aggiungere:',
+    'FEED_NOT_VALID': 'Attenzione! il link del feed non è valido!',
+    'FEED_ADDED': 'Feed aggiunto con successo. Troverai le notize selezionando la categoria o scrivendo /read',
+    'UNEXPECTED_MESSAGE': 'Mi dispiace, non so cosa tu voglia dire.\n Se vuoi leggere scrivi /read',
+    'UNEXPECTED_MESSAGE_URL': 'Non hai inserito nessun link valido. Prova ancora:',
     'SETTINGS_UPDATED': """\
     Perfetto, grazie! Impostazioni aggiornate!
     scrivi /read per cominciare
@@ -49,7 +54,8 @@ scrivi /setcountry per aggiornare la nazione delle notizie
 },
     'en': {
         'UPDATE_COUNTRY': 'Select a country:',
-        'CATEGORIES_CHOOSE': 'What do you want to read?',
+        'CATEGORIES_CHOOSE': 'Select a category:',
+        'CATEGORY_OF_NEW_FEED': 'Select the new feed category:',
         'GENERIC_LOADING': 'Waiting...',
         'NEW_FEEDS_LOADING': 'New feeds loading...',
         'NEWS_LOADING': 'News loading...',
@@ -61,6 +67,10 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'GENERIC_SET_LANGUAGE': 'Tell me your tongue:',
         'DEFAULT_LANGUAGE_INFO': 'Default news language is {}. You can change typing /setlanguage \n Type /read to start reading',
         'TYPE_NEW_FEED': 'Type the feed link you want add:',
+        'FEED_NOT_VALID': 'Ops! Feed link is not valid!',
+        'FEED_ADDED': 'Feed adding is ok. You will find news selecting category or typing /read',
+        'UNEXPECTED_MESSAGE': 'I am sorry, I do not understand. \nType /read to start reading',
+        'UNEXPECTED_MESSAGE_URL': 'You did not type a valid feed url. Try again:',
         'SETTINGS_UPDATED': """
         Oh, Thank you! Settings Updated!.
         Type /read to choose the category

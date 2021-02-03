@@ -125,3 +125,7 @@ def get_popular_languages(language_code):
         list_of_langs.append(language_code)
 
     return [(pycountry.languages.get(alpha_2=lang), lang) for lang in list_of_langs]
+
+
+def add_feed(chat_id, link, category):
+    return write_data.write_feed(link, category, chat_id)

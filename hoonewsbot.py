@@ -2,6 +2,7 @@ import repo
 from rx.subject import Subject
 from models import HooNewsMessage
 import hoonewsstrings
+from hoo_util import get_urls
 
 message_subject = Subject()
 
@@ -49,12 +50,13 @@ def show_list_of_countries(message):
                             country_list)))
 
 
-def get_categories(chat_id, lang):
+def get_categories(chat_id, lang, caption_text=None):
     categories_dict = hoonewsstrings.get_string(lang, 'CATEGORIES')
     message_subject.on_next(HooNewsMessage(chat_id, 'CATEGORIES_CHOOSE',
-                                           (hoonewsstrings.get_string(lang, 'CATEGORIES_CHOOSE'),
-                                            'CATEGORIES_CHOOSE', [(categories_dict[cat_id], cat_id) for cat_id in
-                                                                  repo.get_categories(chat_id)])))
+                                           caption_text if caption_text else (
+                                               hoonewsstrings.get_string(lang, 'CATEGORIES_CHOOSE'),
+                                               'CATEGORIES_CHOOSE', [(categories_dict[cat_id], cat_id) for cat_id in
+                                                                     repo.get_categories(chat_id)])))
 
 
 def get_article(chat_id, article_id):
@@ -130,4 +132,45 @@ def start_add_feed(message):
 
 
 def handle_generic_message(message):
-    pass
+    if str(message.chat.id) in add_feed_session:
+        user = repo.get_user(message.chat.id)
+        urls = get_urls(message.text)
+        if len(urls) > 0:
+            add_feed_session[str(message.chat.id)] = {'link': urls[0]}
+            get_categories(message.chat.id, user['language'],
+                           hoonewsstrings.get_string(user['language'], 'CATEGORY_OF_NEW_FEED'))
+        else:
+            message_subject.on_next(
+                HooNewsMessage(str(message.chat.id), 'ERROR', hoonewsstrings.get_string(
+                    message.from_user.language_code, 'UNEXPECTED_MESSAGE'
+                ))
+            )
+    else:
+        message_subject.on_next(
+            HooNewsMessage(str(message.chat.id), 'ERROR', hoonewsstrings.get_string(
+                message.from_user.language_code, 'UNEXPECTED_MESSAGE_FEED'
+            ))
+        )
+
+
+def handle_category_choose(chat_id, category):
+    if chat_id in add_feed_session:
+        user = repo.get_user(chat_id)
+        add_feed_session[chat_id]['category'] = category
+        response, link, detail = repo.add_feed(chat_id, add_feed_session[chat_id]['link'],
+                                               add_feed_session[chat_id]['category'])
+        if response:
+            message_subject.on_next(
+                HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
+                    user['language'], 'FEED_ADDED'
+                ))
+            )
+        else:
+            message_subject.on_next(
+                HooNewsMessage(chat_id, 'ERROR', hoonewsstrings.get_string(
+                    user['language'], 'FEED_NOT_VALID'
+                ))
+            )
+        del (add_feed_session[chat_id])
+    else:
+        make_search(chat_id, category)
