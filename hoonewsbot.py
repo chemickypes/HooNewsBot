@@ -142,13 +142,13 @@ def handle_generic_message(message):
         else:
             message_subject.on_next(
                 HooNewsMessage(str(message.chat.id), 'ERROR', hoonewsstrings.get_string(
-                    message.from_user.language_code, 'UNEXPECTED_MESSAGE'
+                    message.from_user.language_code, 'UNEXPECTED_MESSAGE_URL'
                 ))
             )
     else:
         message_subject.on_next(
-            HooNewsMessage(str(message.chat.id), 'ERROR', hoonewsstrings.get_string(
-                message.from_user.language_code, 'UNEXPECTED_MESSAGE_FEED'
+            HooNewsMessage(message.chat.id, 'ERROR', hoonewsstrings.get_string(
+                message.from_user.language_code, 'UNEXPECTED_MESSAGE'
             ))
         )
 
@@ -172,6 +172,6 @@ def handle_category_choose(chat_id, category):
                     user['language'], 'FEED_NOT_VALID'
                 ))
             )
-        del (add_feed_session[chat_id])
+        del(add_feed_session[chat_id])
     else:
         make_search(chat_id, category)
