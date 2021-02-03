@@ -96,7 +96,7 @@ def get_articles(chat_id, category, lang, country):
 
     list_of_articles.sort(key=lambda el: datetime.fromtimestamp(mktime(el['timestamp_parsed'])), reverse=True)
 
-    for index, element in enumerate(list_of_articles[:40]):
+    for index, element in enumerate(list_of_articles[:(40 if category == 'general' else 30)]):
         db.collection('live_search').document(str(chat_id)).collection('articles').document(str(index)).set(element,
                                                                                                             merge=True)
     return True
