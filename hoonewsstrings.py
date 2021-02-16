@@ -19,20 +19,19 @@ texts = {'it': {
     'UNEXPECTED_MESSAGE_URL': 'Non hai inserito nessun link valido. Prova ancora:',
     'SETTINGS_UPDATED': """\
     Perfetto, grazie! Impostazioni aggiornate!
-    scrivi /read per cominciare
+    scrivi /read per cominciare a leggere
     o /help per avere aiuto
     """,
     'DONATE_MESSAGE': """\
             Ciao, se vuoi aiutarmi pagami un caffè o una birra!
             Ne sarei contento!
 
-            https://paypal.me/AngeloMoroni?locale.x=en_US
+            https://paypal.me/AngeloMoroni
             """,
     'HELP_MESSAGE': """\
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
             scrivi /read per iniziare a leggere
-            scrivi /category per scegliere la categoria da leggere
             scrivi /addfeed per aggiungere un feed
             scrivi /settings per aggiornare il bot
             scrivi /donate per sostenere questo progetto
@@ -74,20 +73,19 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'UNEXPECTED_MESSAGE_URL': 'You did not type a valid feed url. Try again:',
         'SETTINGS_UPDATED': """
         Oh, Thank you! Settings Updated!.
-        Type /read to choose the category
+        Type /read to start reading
         or /help to get help
         """,
         'DONATE_MESSAGE': """\
             If you want to help me, buy me a coffee here
             
-            https://paypal.me/AngeloMoroni?locale.x=en_US
+            https://paypal.me/AngeloMoroni
             """,
         'HELP_MESSAGE': """\
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.
             type /read to start reading
             type /addfeed to add a new feed
-            type /category to choose the category of news you want read
             type /settings to update bot
             type /donate to help me
             type /help to read this message once again
