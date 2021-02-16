@@ -109,7 +109,6 @@ type /setcountry to update news country
 commands_text = """
 read - to start reading
 settings - to update the bot
-category - to choose category
 addfeed - to add a new feed 
 donate - to help me
 help - to get help
