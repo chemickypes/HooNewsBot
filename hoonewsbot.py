@@ -136,9 +136,24 @@ def handle_generic_message(message):
         user = repo.get_user(message.chat.id)
         urls = get_urls(message.text)
         if len(urls) > 0:
-            add_feed_session[str(message.chat.id)] = {'link': urls[0]}
-            get_categories(message.chat.id, user['language'],
-                           hoonewsstrings.get_string(user['language'], 'CATEGORY_OF_NEW_FEED'))
+            chat_id = str(message.chat.id)
+            add_feed_session[chat_id] = {'link': urls[0]}
+            response, link, detail = repo.add_feed(chat_id, add_feed_session[chat_id]['link'],
+                                                   'personal')
+            if response:
+                message_subject.on_next(
+                    HooNewsMessage(chat_id, 'INFO', hoonewsstrings.get_string(
+                        user['language'], 'FEED_ADDED'
+                    ))
+                )
+            else:
+                print(detail)
+                message_subject.on_next(
+                    HooNewsMessage(chat_id, 'ERROR', hoonewsstrings.get_string(
+                        user['language'], 'FEED_NOT_VALID'
+                    ))
+                )
+            del (add_feed_session[chat_id])
         else:
             message_subject.on_next(
                 HooNewsMessage(str(message.chat.id), 'ERROR', hoonewsstrings.get_string(
@@ -172,6 +187,6 @@ def handle_category_choose(chat_id, category):
                     user['language'], 'FEED_NOT_VALID'
                 ))
             )
-        del(add_feed_session[chat_id])
+        del (add_feed_session[chat_id])
     else:
         make_search(chat_id, category)

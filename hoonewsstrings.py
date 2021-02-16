@@ -14,7 +14,7 @@ texts = {'it': {
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
     'TYPE_NEW_FEED': 'Scrivi il link del feed che vuoi aggiungere:',
     'FEED_NOT_VALID': 'Attenzione! il link del feed non è valido!',
-    'FEED_ADDED': 'Feed aggiunto con successo. Troverai le notize selezionando la categoria o scrivendo /read',
+    'FEED_ADDED': 'Feed aggiunto con successo. Troverai le notizie nell feed scrivendo /read',
     'UNEXPECTED_MESSAGE': 'Mi dispiace, non so cosa tu voglia dire.\n Se vuoi leggere scrivi /read',
     'UNEXPECTED_MESSAGE_URL': 'Non hai inserito nessun link valido. Prova ancora:',
     'SETTINGS_UPDATED': """\
@@ -69,7 +69,7 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'DEFAULT_LANGUAGE_INFO': 'Default news language is {}. You can change typing /setlanguage \n Type /read to start reading',
         'TYPE_NEW_FEED': 'Type the feed link you want add:',
         'FEED_NOT_VALID': 'Ops! Feed link is not valid!',
-        'FEED_ADDED': 'Feed adding is ok. You will find news selecting category or typing /read',
+        'FEED_ADDED': 'Feed adding is ok. You will find news on feed typing /read',
         'UNEXPECTED_MESSAGE': 'I am sorry, I do not understand. \nType /read to start reading',
         'UNEXPECTED_MESSAGE_URL': 'You did not type a valid feed url. Try again:',
         'SETTINGS_UPDATED': """
