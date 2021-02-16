@@ -61,12 +61,8 @@ def write_generic_feeds(lang, country):
 
 
 def __get_feeds(category, lang, chat_id, country=None):
-    feeds = set(db.collection('feeds').where('category', '==', category).
+    feeds = set(db.collection('feeds').
                 where('target', 'array_contains_any', ['all', lang, str(chat_id)]).stream())
-
-    if category == 'general':
-        feeds.update(
-            set(db.collection('feeds').where('target', 'array_contains_any', [str(chat_id)]).stream()))
 
     feeds_list = []
     for feed in feeds:
@@ -96,7 +92,7 @@ def get_articles(chat_id, category, lang, country):
 
     list_of_articles.sort(key=lambda el: datetime.fromtimestamp(mktime(el['timestamp_parsed'])), reverse=True)
 
-    for index, element in enumerate(list_of_articles[:(40 if category == 'general' else 30)]):
+    for index, element in enumerate(list_of_articles[:75]):
         db.collection('live_search').document(str(chat_id)).collection('articles').document(str(index)).set(element,
                                                                                                             merge=True)
     return True
@@ -122,7 +118,7 @@ def get_article(chat_id, article_id):
 
 
 if __name__ == '__main__':
-    print(__get_feeds('general', 'it', ''))
+    print(__get_feeds('general', 'it', 8976561))
 
 
 def get_popular_languages(language_code):

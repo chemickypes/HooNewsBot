@@ -79,7 +79,7 @@ def write_feed(url, category, target):
             print('create doc')
             db.collection('feeds').document().set({
                 'link': url,
-                'category': category,
+                'category': category if category else 'personal',
                 'target': [target],
                 'title': feed.feed.title,
                 'subtitle': feed.feed.subtitle
@@ -96,5 +96,9 @@ if __name__ == '__main__':
     write_generic_feeds_without_country()
     db.collection('feeds').document('categories').set({
         'categories': [cat.lower() for i, cat in categories.items()]})'''
-    # write_feed('https://www.wired.it/fed/', 'general', 'it')
-    print(write_feed('https://www.wired.ut/fed/  ', 'general', 'it'))
+    # print(write_feed('https://www.millionaire.it/feed/', 'general', 'all'))
+    """print(write_feed('https://medium.com/feed/topic/economy', 'general', 'all'))
+    print(write_feed('https://medium.com/feed/topic/product-management', 'general', 'all'))
+    print(write_feed('https://thenextweb.com/feed/', 'general', 'all'))
+    print(write_feed('https://www.engadget.com/rss.xml', 'general', 'all'))"""
+    print(write_feed('http://feeds.arstechnica.com/arstechnica/index', 'general', 'all'))

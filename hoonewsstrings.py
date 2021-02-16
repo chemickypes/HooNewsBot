@@ -14,25 +14,24 @@ texts = {'it': {
     'DEFAULT_LANGUAGE_INFO': 'La lingua impostata è {}. Puoi cambiarla scrivendo /setlanguage o /read per iniziare a leggere le notizie',
     'TYPE_NEW_FEED': 'Scrivi il link del feed che vuoi aggiungere:',
     'FEED_NOT_VALID': 'Attenzione! il link del feed non è valido!',
-    'FEED_ADDED': 'Feed aggiunto con successo. Troverai le notize selezionando la categoria o scrivendo /read',
+    'FEED_ADDED': 'Feed aggiunto con successo. Troverai le notizie nell feed scrivendo /read',
     'UNEXPECTED_MESSAGE': 'Mi dispiace, non so cosa tu voglia dire.\n Se vuoi leggere scrivi /read',
     'UNEXPECTED_MESSAGE_URL': 'Non hai inserito nessun link valido. Prova ancora:',
     'SETTINGS_UPDATED': """\
     Perfetto, grazie! Impostazioni aggiornate!
-    scrivi /read per cominciare
+    scrivi /read per cominciare a leggere
     o /help per avere aiuto
     """,
     'DONATE_MESSAGE': """\
             Ciao, se vuoi aiutarmi pagami un caffè o una birra!
             Ne sarei contento!
 
-            https://paypal.me/AngeloMoroni?locale.x=en_US
+            https://paypal.me/AngeloMoroni
             """,
     'HELP_MESSAGE': """\
             Ciao Benvenuto/a! Questo è HooNewsBot.
             Un Feed di notizie senza preoccuaprsi di Cookie.
             scrivi /read per iniziare a leggere
-            scrivi /category per scegliere la categoria da leggere
             scrivi /addfeed per aggiungere un feed
             scrivi /settings per aggiornare il bot
             scrivi /donate per sostenere questo progetto
@@ -69,25 +68,24 @@ scrivi /setcountry per aggiornare la nazione delle notizie
         'DEFAULT_LANGUAGE_INFO': 'Default news language is {}. You can change typing /setlanguage \n Type /read to start reading',
         'TYPE_NEW_FEED': 'Type the feed link you want add:',
         'FEED_NOT_VALID': 'Ops! Feed link is not valid!',
-        'FEED_ADDED': 'Feed adding is ok. You will find news selecting category or typing /read',
+        'FEED_ADDED': 'Feed adding is ok. You will find news on feed typing /read',
         'UNEXPECTED_MESSAGE': 'I am sorry, I do not understand. \nType /read to start reading',
         'UNEXPECTED_MESSAGE_URL': 'You did not type a valid feed url. Try again:',
         'SETTINGS_UPDATED': """
         Oh, Thank you! Settings Updated!.
-        Type /read to choose the category
+        Type /read to start reading
         or /help to get help
         """,
         'DONATE_MESSAGE': """\
             If you want to help me, buy me a coffee here
             
-            https://paypal.me/AngeloMoroni?locale.x=en_US
+            https://paypal.me/AngeloMoroni
             """,
         'HELP_MESSAGE': """\
             Hi welcome to HooBotNews.
             You can read news without worrying about leaving cookies.
             type /read to start reading
             type /addfeed to add a new feed
-            type /category to choose the category of news you want read
             type /settings to update bot
             type /donate to help me
             type /help to read this message once again
@@ -111,7 +109,6 @@ type /setcountry to update news country
 commands_text = """
 read - to start reading
 settings - to update the bot
-category - to choose category
 addfeed - to add a new feed 
 donate - to help me
 help - to get help
