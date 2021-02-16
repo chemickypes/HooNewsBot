@@ -5,7 +5,7 @@ import hoonewsbot
 from flask import Flask, request
 import os
 
-DEBUG = False
+DEBUG = True
 
 bot = telebot.TeleBot(secrets.get_token(DEBUG))
 server = Flask(__name__)
@@ -55,7 +55,7 @@ def settings(message):
     hoonewsbot.show_settings(message.chat.id, message.from_user.language_code)
 
 
-@bot.message_handler(commands=['category'])
+@bot.message_handler(commands=[''])
 def category(message):
     if DEBUG: print(message)
     hoonewsbot.get_categories(message.chat.id, message.from_user.language_code)
